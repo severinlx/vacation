@@ -16,6 +16,10 @@ public class Test {
         // Eine Liste (Typ Testdatum) wird aus der übergebenen Datei erstellt
         // =====================================================================
         List<Testdatum> lTestdatumListe = Datentreiber.getTestdatenEXCEL();
+
+        //=====================================================================
+        // Config Laden
+        // =====================================================================
         Config.setBrowser();
         //=====================================================================
         // Es wird eine Schleif über alle Einträge des Testdatentreibers gelaufen
