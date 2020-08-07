@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?> 
-<Vakanzengrabber>
+<eu.fincon.Vakanzengrabber>
 	<Browser>Chrome</Browser>
 	<Seiten>
 		<Seite name="FreelanceDE" url="http://www.freelance.de" benutzername="Manuel.Naas@fincon.eu" passwort="start123#"/>
 	</Seiten>
-</Vakanzengrabber>
+</eu.fincon.Vakanzengrabber>

@@ -1,8 +1,8 @@
 package eu.fincon;
-import Datenverarbeitung.Config;
-import Datenverarbeitung.Datentreiber;
-import Datenverarbeitung.Testdatum;
-import Vakanzengrabber.FreelanceDE.FreelanceDEGrabben;
+import eu.fincon.Datenverarbeitung.Config;
+import eu.fincon.Datenverarbeitung.Datentreiber;
+import eu.fincon.Datenverarbeitung.Testdatum;
+import eu.fincon.Vakanzengrabber.FreelanceDE.FreelanceDEGrabben;
 
 import java.util.List;
 
