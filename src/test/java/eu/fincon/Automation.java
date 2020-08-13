@@ -222,8 +222,8 @@ public class Automation {
         {
             we = sucheinträge.get(count);
             // Webelement öffnen
-            WebElement überschrift = Automation.element_Holen(driver, we, Automation.IdentifierType.Xpath,"//h3/a");
-            Automation.element_Klicken(driver, überschrift);
+            WebElement ueberschrift = Automation.element_Holen(driver, we, Automation.IdentifierType.Xpath,"//h3/a");
+            Automation.element_Klicken(driver, ueberschrift);
             // Daten aus Inserat speichern
             Datensatz Eintrag = inserat_Sichern(driver);
             Eintrag.Write_file((count+1) + (pagecount * 20), ausgabe_pfad);

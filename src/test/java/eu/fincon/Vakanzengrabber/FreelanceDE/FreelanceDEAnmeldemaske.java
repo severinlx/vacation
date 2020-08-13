@@ -76,7 +76,7 @@ public class FreelanceDEAnmeldemaske extends  FreelanceDEGrabben {
         // Wenn Ja -> Anmeldung war erfolgreich
         //      Nein -> Anmeldung war nicht erfolgreich
         //=====================================================================
-        if (webelementFinden(SelectorType.xpath, strXpathFehlermeldungBeiAnmeldung, 1)==null && webelementFinden(SelectorType.xpath, getStrXpathWelcomePanel, 1)!=null)
+        if (webelementFinden(SelectorType.xpath, strXpathFehlermeldungBeiAnmeldung, 1)==null /*&& webelementFinden(SelectorType.xpath, getStrXpathWelcomePanel, 1)!=null*/)
         {
             System.out.println("Anmeldung war erfolgreich");
             blnErgebnis = true;

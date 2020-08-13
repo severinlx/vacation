@@ -53,7 +53,7 @@ public class Inserat {
         // Alle Werte des Inserates werden Semikolon-separiet zurückgegeben.
         // URL;Titel;StartDatum;EndeDatum;Ort;Bezahlung;LetztesUpdate;ReferenzNummer;Projektbeschreibung
         // =====================================================================
-        return strURL + ";" + strTitel + ";" + strStartDatum + ";" + strEndeDatum + ";" + strOrt + ";" + strBezahlung + ";" + strLetztesUpdate + ";" + strReferenzNummer + ";" + strProjektbeschreibung + ";" + strKategorienUndSkills + ";" + strKontaktdaten;
+        return strURL + ";" + strTitel + ";" + strStartDatum + ";" + strEndeDatum + ";" + strOrt + ";" + strBezahlung + ";" + strLetztesUpdate + ";" + strRemote + ";" + strReferenzNummer + ";" + strProjektbeschreibung + ";" + strKategorienUndSkills + ";" + strKontaktdaten;
     }
 
     //=====================================================================
@@ -61,7 +61,7 @@ public class Inserat {
     // =====================================================================
     public static String getCSVSpalten()
     {
-        return "URL;Titel;Start;Ende;Ort;Bezahlung;Letztes Update;Remote;Projektbeschreibung;Kategorien und Skills;Kontaktdaten";
+        return "URL;Titel;Start;Ende;Ort;Bezahlung;Letztes Update;Remote;Referenz Nummer;Projektbeschreibung;Kategorien und Skills;Kontaktdaten";
     }
     public String getURL()
     {

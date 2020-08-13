@@ -7,8 +7,7 @@ import org.openqa.selenium.WebElement;
 // Enthält FreelanceDe spezifische Informationen
 // =====================================================================
 public class FreelanceDEGrabben extends VakanzenGrabber {
-    String strXPathCookieDiv = "//div[@id='CybotCookiebotDialog']";
-    String StrXPathCookieAccept = "//a[@id='CybotCookiebotDialogBodyButtonAccept']";
+    String StrXPathCookieAccept = "//a[@id='CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection']";
     //=====================================================================
     // Basis Methode für FreelanceDE
     // =====================================================================
@@ -21,11 +20,10 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
     }
     public void cookieHandler()
     {
-        WebElement weCookieDivElement = webelementFinden(SelectorType.xpath, strXPathCookieDiv, 0);
-        if (weCookieDivElement!=null)
+        WebElement weCookieDivAkzeptierenElement = webelementFinden(SelectorType.xpath, StrXPathCookieAccept, 1);
+        if (weCookieDivAkzeptierenElement!=null)
         {
             System.out.println("Cookie Div ist vorhanden!\nAnzeige wird geschlossen!");
-            WebElement weCookieDivAkzeptierenElement = webelementFinden(SelectorType.xpath, StrXPathCookieAccept);
             webelementKlicken(weCookieDivAkzeptierenElement);
         }
     }

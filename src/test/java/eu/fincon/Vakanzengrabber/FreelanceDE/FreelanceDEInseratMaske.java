@@ -10,13 +10,13 @@ public class FreelanceDEInseratMaske extends VakanzenGrabber {
     // =====================================================================
     String strXpathTitel = "//div[@class='panel-body project-header panel-white']//h1";
 
-    String strXpathStartDatum = "//div[@class='col-md-6 details-box']//i[@class='fa fa-sign-in']/..";
-    String strXpathEndeDatum = "//div[@class='col-md-6 details-box']//i[@class='fa fa-sign-out']/..";
-    String strXpathOrt = "//div[@class='col-md-6 details-box']//i[@class='fa fa-globe']/..";
-    String strXpathBezahlung = "//div[@class='col-md-6 details-box']//i[@class='fa fa-money']/..";
-    String strXpathRemote = "//div[@class='col-md-6 details-box']//i[@class='fa fa-home']/..";
-    String strXpathLetztesUpdate = "//div[@class='col-md-6 details-box']//i[@class='fa fa-refresh']/..";
-    String strXpathReferenzNummer = "//div[@class='col-md-6 details-box']//i[@class='fa fa-home']/..";
+    String strXpathStartDatum = "//div[@class='col-md-6 details-box']//i[@class='far fa-calendar-star']/..";
+    String strXpathEndeDatum = "//div[@class='col-md-6 details-box']//i[@class='far fa-calendar-times']/..";
+    String strXpathOrt = "//div[@class='col-md-6 details-box']//i[@class='far fa-map-marker-alt']/..";
+    String strXpathBezahlung = "//div[@class='col-md-6 details-box']//i[@class='far fa-coins']/..";
+    String strXpathRemote = "//div[@class='col-md-6 details-box']//i[@class='far fa-home-alt']/..";
+    String strXpathLetztesUpdate = "//div[@class='col-md-6 details-box']//i[@class='far fa-history']/..";
+    String strXpathReferenzNummer = "//div[@class='col-md-6 details-box']//i[@class='far fa-tag']/..";
 
     String strXpathProjektbeschreibung = "//div[@class=\"panel-body\"]";
 

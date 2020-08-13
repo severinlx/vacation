@@ -6,16 +6,16 @@ import java.nio.file.Paths;
 
 public class Datensatz
 {
-    public String Überschrift;
+    public String Ueberschrift;
     public String Firmenname;
     public String DatumVon;
     public String DatumBis;
     public String Ort;
     public String Bezahlung;
     public String Beschreibung;
-    public Datensatz(String überschrift, String firmenname, String datumvon, String datumbis, String ort, String bezahlung, String beschreibung)
+    public Datensatz(String ueberschrift, String firmenname, String datumvon, String datumbis, String ort, String bezahlung, String beschreibung)
     {
-        Überschrift = überschrift;
+        Ueberschrift = ueberschrift;
         Firmenname = firmenname;
         DatumVon = datumvon;
         DatumBis = datumbis;
@@ -26,7 +26,7 @@ public class Datensatz
 
     public void Write_file(int index, String pfad)
     {
-        String text = index + ";" + Überschrift + ";" + Firmenname + ";" + DatumVon + ";" + DatumBis + ";" + Ort + ";" + Bezahlung + ";" + Beschreibung;
+        String text = index + ";" + Ueberschrift + ";" + Firmenname + ";" + DatumVon + ";" + DatumBis + ";" + Ort + ";" + Bezahlung + ";" + Beschreibung;
         text = text.replace("\n","<br>");
         // Datensatz wird in die Datei geschrieben
         Write_to_File(pfad, text);
