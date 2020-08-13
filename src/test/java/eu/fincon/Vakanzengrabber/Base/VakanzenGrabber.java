@@ -55,7 +55,7 @@ public class VakanzenGrabber {
         //=====================================================================
         strActualTitle = seitentitelHolen();
         System.out.println(strActualTitle + "==" + pstrExpTitle);
-        if (pstrExpTitle == "" || strActualTitle.contentEquals(pstrExpTitle)) {
+        if (pstrExpTitle == "" || strActualTitle.contains(pstrExpTitle)) {
             return true;
         } else {
             System.out.println("Seitentitel ist abweichend");

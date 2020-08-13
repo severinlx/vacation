@@ -40,7 +40,7 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         //=====================================================================
         // Ruft die Methode "webseiteStarten" aus der Basis-Klasse auf
         // =====================================================================
-        if (!webseiteStarten(ptTestdatum.strURL, "Projekte und Aufträge für Freelancer, Freiberufler und Selbstständige"))
+        if (!webseiteStarten(ptTestdatum.strURL, "Freelancer, Freiberufler und"))
         {
             System.out.println("Fehler beim Starten der Webseite");
             assert (1==0);
