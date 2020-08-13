@@ -54,6 +54,7 @@ public class VakanzenGrabber {
         // Get the actual Title and compare it with the expected Title
         //=====================================================================
         strActualTitle = seitentitelHolen();
+        System.out.println(strActualTitle + "==" + pstrExpTitle);
         if (pstrExpTitle == "" || strActualTitle.contentEquals(pstrExpTitle)) {
             return true;
         } else {
