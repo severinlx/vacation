@@ -41,7 +41,7 @@ public class FreelanceDEAnmeldemaske extends  FreelanceDEGrabben {
             // =====================================================================
             return true;
         }
-        if (seitentitelHolen().contentEquals("Freelancer, Freiberufler und ") == false)
+        if (seitentitelHolen().contains("Freelancer, Freiberufler und ") == false)
         {
             return false;
         }
