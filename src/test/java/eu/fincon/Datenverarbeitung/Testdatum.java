@@ -47,7 +47,7 @@ public class Testdatum
         System.out.println("----------Testdatum--------------");
         System.out.println("Suchbegriff"+strSuchbegriff);
         System.out.println(pstrSeitenname);
-        System.out.println("Seite"+eSeite.toString());
+        System.out.println("Seite"+ eSeite.toString());
         System.out.println("URL"+strURL);
         System.out.println("Benutzer"+strBenutzername);
         System.out.println("Passwort"+strPasswort);
@@ -60,6 +60,11 @@ public class Testdatum
             case "freelancede":
                 eSeite = VakanzenGrabber.Seiten.FreelanceDE;
                 break;
+            case "freelancermap":
+                eSeite = VakanzenGrabber.Seiten.FreelancerMap;
+                break;
+            default:
+                System.out.println(pstrSeitenname.toLowerCase());
         }
     }
 }

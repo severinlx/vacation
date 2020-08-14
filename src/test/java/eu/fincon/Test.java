@@ -41,6 +41,9 @@ public class Test {
                     FreelanceDE.suchlisteSichern(tTestdatum);
                     FreelanceDE.seiteSchließen();
                     break;
+                case FreelancerMap:
+                    // Schritte zur Automatisierung ergänzen
+                    break;
             }
         }
     }

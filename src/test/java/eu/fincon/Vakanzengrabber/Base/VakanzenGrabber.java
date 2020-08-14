@@ -21,10 +21,12 @@ public class VakanzenGrabber {
 
     public enum SelectorType {
         xpath,
-        tagName
+        tagName,
+        linktext
     }
     public enum Seiten{
-        FreelanceDE
+        FreelanceDE,
+        FreelancerMap
     }
     public enum Browser{
         Chrome
@@ -156,6 +158,9 @@ public class VakanzenGrabber {
                     break;
                 case tagName:
                     element = wait.until(ExpectedConditions.elementToBeClickable(By.tagName(pstrIdentifikator)));
+                    break;
+                case linktext:
+                    element = wait.until(ExpectedConditions.elementToBeClickable(By.linkText(pstrIdentifikator)));
                     break;
                 default:
                     // Errorhandling
