@@ -50,13 +50,14 @@ public class InserateVerwalten {
         //=====================================================================
         // Es wird mittels Schleife über jeden Eintrag der Inserate Liste gegangen
         // =====================================================================
+        int index = 1;
         for( Inserat i: lInserate )
         {
             switch (pstSpeicherTyp) {
                 case csv:
                     System.out.println("Speichertyp wird verwendet -> " + pstSpeicherTyp.toString());
                     String strInseratStringCSV = i.getInseratStringCSV();
-                    inCSVDateiSchreiben(osExportFile, String.valueOf(i)+";"+strInseratStringCSV);
+                    inCSVDateiSchreiben(osExportFile, Integer.toString(index)+";"+strInseratStringCSV);
                     break;
                 case text:
                     // Weitere Exporte möglich
@@ -65,6 +66,7 @@ public class InserateVerwalten {
                     System.out.println("Speichertyp wurde nicht gefunden - " + pstSpeicherTyp.toString());
                     return;
             }
+            index ++;
         }
         try {
             osExportFile.flush();
