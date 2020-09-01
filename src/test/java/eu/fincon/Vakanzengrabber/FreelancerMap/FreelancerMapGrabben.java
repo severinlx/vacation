@@ -8,8 +8,8 @@ import org.openqa.selenium.WebElement;
 // Enthält FreelanceDe spezifische Informationen
 // =====================================================================
 public class FreelancerMapGrabben extends VakanzenGrabber {
-    String StrXPathCookieWindow = "//a[@id='cc_banner cc_container cc_container--open']";
-    String StrXPathCookieAccept = "//a[@id='cc_banner cc_container cc_container--open']/a";
+    String StrXPathCookieWindow = "//div[@class='cc_banner cc_container cc_container--open']";
+    String StrXPathCookieAccept = "//div[@class='cc_banner cc_container cc_container--open']/a";
     //=====================================================================
     // Basis Methode für FreelanceDE
     // =====================================================================
