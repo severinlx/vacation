@@ -1,5 +1,6 @@
 package eu.fincon.Vakanzengrabber.FreelanceDE;
 import eu.fincon.Datenverarbeitung.Testdatum;
+import eu.fincon.Datenverarbeitung.Webseite;
 import eu.fincon.Vakanzengrabber.Base.VakanzenGrabber;
 import org.openqa.selenium.WebElement;
 
@@ -11,12 +12,13 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
     //=====================================================================
     // Basis Methode für FreelanceDE
     // =====================================================================
-    public FreelanceDEGrabben()
+    public FreelanceDEGrabben(Webseite pwWebseite)
     {
-        //=====================================================================
+        //==========================4===========================================
         // Ruft den Constructor der Basisklasse auf
         // =====================================================================
         super();
+        wWebseite = pwWebseite;
     }
     public void cookieHandler()
     {
@@ -31,7 +33,7 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
     // Override Methoden die die Basisklasse überschreiben
     // =====================================================================
     @Override
-    public void seiteOeffnen(Testdatum ptTestdatum)
+    public void seiteOeffnen()
     {
         //=====================================================================
         // Akzeptiert den Cookies Popup
@@ -40,14 +42,14 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         //=====================================================================
         // Ruft die Methode "webseiteStarten" aus der Basis-Klasse auf
         // =====================================================================
-        if (!webseiteStarten(ptTestdatum.strURL, "Freelancer, Freiberufler und"))
+        if (!webseiteStarten(wWebseite.strURL, "Freelancer, Freiberufler und"))
         {
             System.out.println("Fehler beim Starten der Webseite");
             assert (1==0);
         }
     }
     @Override
-    public void benutzerAnmelden(Testdatum ptTestdatum)
+    public void benutzerAnmelden()
     {
         //=====================================================================
         // Akzeptiert den Cookies Popup
@@ -58,7 +60,7 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // Instanz an den Constructor
         // Im Anschluss wird die Methode "anmelden" aus dem Object ausgeführt
         // =====================================================================
-        if (!new FreelanceDEAnmeldemaske(this).anmelden(ptTestdatum))
+        if (!new FreelanceDEAnmeldemaske(this).anmelden())
         {
             System.out.println("Fehler beim anmelden des Benutzers");
             assert (1==0);
@@ -71,27 +73,27 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // Instanz an den Constructor
         // Im Anschluss wird die Methode "sucheDurchfuehren" aus dem Object ausgeführt
         // =====================================================================
-        new FreelanceDESuchmaske(this).sucheAufMaskeDurchfuehren(ptTestdatum);
+        new FreelanceDESuchmaske(this, wWebseite).sucheAufMaskeDurchfuehren(ptTestdatum);
     }
     @Override
-    public void suchlisteSichern(Testdatum ptTestdatum){
+    public void suchlisteSichern(){
         //=====================================================================
         // Erzeugt eine Instanz der Sub-Klasse "FreelanceDESuchlisteMaske" und übergibt das Object der aktuellen
         // Instanz an den Constructor
         // Im Anschluss wird die Methode "suchlistebearbeiten" aus dem Object ausgeführt
         // =====================================================================
-        if (!new FreelanceDESuchlisteMaske(this).suchlistebearbeiten(ptTestdatum))
+        if (!new FreelanceDESuchlisteMaske(this).suchlistebearbeiten())
         {
             System.out.println("Fehler beim Starten der Webseite");
             assert (1==0);
         }
     }
     @Override
-    public void browserVorbereiten(Testdatum ptTestdatum) {
+    public void browserVorbereiten() {
         //=====================================================================
         // Ruft die Methode "WebDriverInitiieren" aus der Basis-Klasse auf
         // =====================================================================
-        if (!WebDriverInitiieren(ptTestdatum))
+        if (!WebDriverInitiieren())
         {
             System.out.println("Fehler beim initiieren des Webdrivers");
             assert (1==0);

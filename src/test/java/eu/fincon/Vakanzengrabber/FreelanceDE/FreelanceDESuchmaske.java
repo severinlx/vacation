@@ -1,6 +1,7 @@
 package eu.fincon.Vakanzengrabber.FreelanceDE;
 
 import eu.fincon.Datenverarbeitung.Testdatum;
+import eu.fincon.Datenverarbeitung.Webseite;
 import org.openqa.selenium.WebElement;
 
 public class FreelanceDESuchmaske extends FreelanceDEGrabben{
@@ -9,8 +10,9 @@ public class FreelanceDESuchmaske extends FreelanceDEGrabben{
     // =====================================================================
     String strXpathSuchfeld = "//*[@id='__search']//input[@name= '__search_freetext']";
     String strXpathSuchbutton = "//*[@id='__search']//input[@name= '__search_freetext']/..//button";
-    public FreelanceDESuchmaske(FreelanceDEGrabben pSuperclass)
+    public FreelanceDESuchmaske(FreelanceDEGrabben pSuperclass, Webseite wWebseite)
     {
+        super(wWebseite);
         this.gObjWebDriver = pSuperclass.gObjWebDriver;
     }
     public void sucheAufMaskeDurchfuehren(Testdatum ptTestdatum) {

@@ -14,10 +14,36 @@ import java.io.File;
 import java.io.IOException;
 
 public class Config {
+    public static eu.fincon.Datenverarbeitung.InserateVerwalten.SpeicherTypen stSpeicherTyp = InserateVerwalten.SpeicherTypen.csv;
+    public static Webseite[] strarrayWebseitenListe;
     public static VakanzenGrabber.Browser bBrowser;
     public Config()
     {
+        WebseitenlisteLaden();
+    }
+    public static void WebseitenlisteLaden()
+    {
+        //=====================================================================
+        // Holt den das Root-Element der Config.XML
+        // =====================================================================
+        Element rootElement = getRootElement();
 
+        if (rootElement==null)
+        {
+            System.out.println("Config.XML konnte nicht geladen werden");
+            return;
+        }
+        //=====================================================================
+        // "selektiert" alle Elemente vom Typ "Seite"
+        // =====================================================================
+        NodeList eSeitenElemente = rootElement.getElementsByTagName("Seite");
+
+        strarrayWebseitenListe = new Webseite[eSeitenElemente.getLength()];
+        for (int i=0; i<eSeitenElemente.getLength(); i++) {
+            String strName = eSeitenElemente.item(i).getAttributes().getNamedItem("name").getNodeValue();
+            strarrayWebseitenListe[i]=new Webseite(strName);
+            System.out.println(strName);
+        }
     }
     public static String strConfigFilePath = "config.xml";
     public static String getBenutzername(String pstrSeite)
@@ -47,12 +73,7 @@ public class Config {
                 bBrowser = VakanzenGrabber.Browser.Chrome;
         }
     }
-
-    //=====================================================================
-    // Öffnet eine XML Datei aus dem Pfad der Globalen Variablen ""
-    // Und gibt einen Wert für ein Attribut zurück der übergeben Parameter "name" zurück
-    // =====================================================================
-    private static String getWertAusConfig(String pstrSeite, String pstrAttributName)
+    static Element getRootElement()
     {
         //=====================================================================
         // Prüfen ob die Config-Datei vorhanden ist
@@ -60,19 +81,15 @@ public class Config {
         if (new File(strConfigFilePath).exists() == false)
         {
             System.out.println("Datei gefunden");
-            return "";
+            return null;
         }
-        //=====================================================================
-        // XML auslesen
-        // =====================================================================
-        String strWert = "";
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
         try {
             builder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
-            return "";
+            return null;
         }
         Document document = null;
         try {
@@ -82,16 +99,32 @@ public class Config {
             document = builder.parse(new InputSource(strConfigFilePath));
         } catch (SAXException e) {
             e.printStackTrace();
-            return "";
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
-            return "";
+            return null;
         }
 
         //=====================================================================
         // Selektiert das überste Element der XML
+        //        // =====================================================================
+        return document.getDocumentElement();
+    }
+    //=====================================================================
+    // Öffnet eine XML Datei aus dem Pfad der Globalen Variablen ""
+    // Und gibt einen Wert für ein Attribut zurück der übergeben Parameter "name" zurück
+    // =====================================================================
+    private static String getWertAusConfig(String pstrSeite, String pstrAttributName)
+    {
+        //=====================================================================
+        // XML auslesen
         // =====================================================================
-        Element rootElement = document.getDocumentElement();
+        String strWert = "";
+        Element rootElement = getRootElement();
+        if (rootElement==null)
+        {
+            return "";
+        }
         if(!pstrSeite.equalsIgnoreCase("")) {
 
             //=====================================================================
@@ -137,7 +170,6 @@ public class Config {
             // ====================================================================
             strWert = rootElement.getElementsByTagName(pstrAttributName).item(0).getTextContent();
         }
-        document = null;
         return strWert;
     }
 }

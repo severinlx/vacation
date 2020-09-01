@@ -2,6 +2,7 @@ package eu.fincon.Vakanzengrabber.Base;
 
 import eu.fincon.Datenverarbeitung.Config;
 import eu.fincon.Datenverarbeitung.Testdatum;
+import eu.fincon.Datenverarbeitung.Webseite;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,6 +18,7 @@ import java.util.List;
 // Enthält alle Selenium Funktionen
 // =====================================================================
 public class VakanzenGrabber {
+    public Webseite wWebseite;
     public WebDriver gObjWebDriver;
 
     public enum SelectorType {
@@ -39,7 +41,6 @@ public class VakanzenGrabber {
     //=====================================================================
     // Selenium Funktionen - allgemein
     // =====================================================================
-
 
     protected boolean webseiteStarten(String pstrUrl, String pstrExpTitle) {
         //=====================================================================
@@ -85,7 +86,7 @@ public class VakanzenGrabber {
         }
         return true;
     }
-    protected boolean WebDriverInitiieren(Testdatum ptTestdatum) {
+    protected boolean WebDriverInitiieren() {
         //=====================================================================
         // WebDriverManger setup
         //=====================================================================
@@ -310,10 +311,10 @@ public class VakanzenGrabber {
     //=====================================================================
     // Public Methoden die von der vererbten Klasse überschreiben werden.
     // =====================================================================
-    public void seiteOeffnen(Testdatum ptTestdatum){}
-    public void benutzerAnmelden(Testdatum ptTestdatum){}
+    public void seiteOeffnen(){}
+    public void benutzerAnmelden(){}
     public void sucheDurchfuehren(Testdatum ptTestdatum){}
-    public void suchlisteSichern(Testdatum ptTestdatum){}
-    public void browserVorbereiten(Testdatum ptTestdatum){}
+    public void suchlisteSichern(){}
+    public void browserVorbereiten(){}
     public void seiteSchließen(){}
 }

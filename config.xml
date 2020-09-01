@@ -2,7 +2,7 @@
 <eu.fincon.Vakanzengrabber>
 	<Browser>Chrome</Browser>
 	<Seiten>
-		<Seite name="FreelanceDE" url="http://www.freelance.de" benutzername="Manuel.Naas@fincon.eu" passwort="start123#"/>
 		<Seite name="FreelancerMap" url="http://www.freelancermap.de" benutzername="Manuel.Naas@fincon.eu" passwort="start123#"/>
+		<Seite name="FreelanceDE" url="http://www.freelance.de" benutzername="Manuel.Naas@fincon.eu" passwort="start123#"/>
 	</Seiten>
 </eu.fincon.Vakanzengrabber>

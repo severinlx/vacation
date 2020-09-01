@@ -24,8 +24,10 @@ public class FreelanceDEInseratMaske extends VakanzenGrabber {
 
 
     String strXpathKontaktdaten = "//h3[text() = 'Kontaktdaten']/../..//div[@class='panel-body']";
-    public FreelanceDEInseratMaske(FreelanceDEGrabben pSuperclass)
+    public FreelanceDEInseratMaske(FreelanceDESuchlisteMaske pSuperclass)
     {
+        super();
+        this.wWebseite=pSuperclass.wWebseite;
         this.gObjWebDriver = pSuperclass.gObjWebDriver;
     }
     public Inserat inseratSichern(String pstrLinkZiel)

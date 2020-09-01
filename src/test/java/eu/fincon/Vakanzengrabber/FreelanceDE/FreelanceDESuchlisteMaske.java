@@ -1,5 +1,6 @@
 package eu.fincon.Vakanzengrabber.FreelanceDE;
 
+import eu.fincon.Datenverarbeitung.Config;
 import eu.fincon.Datenverarbeitung.Inserat;
 import eu.fincon.Datenverarbeitung.InserateVerwalten;
 import eu.fincon.Datenverarbeitung.Testdatum;
@@ -17,19 +18,22 @@ public class FreelanceDESuchlisteMaske extends VakanzenGrabber {
     String strXpathSuchlisteneintrag = "(//*[contains(@id,\"project_link\")])[" + "[i]" + "]"; // [i] wird innerhalb der Schleife mit dem aktuellen Schleifenzähler ersetzt
     String strXPathnaechsteSeite = "//ul[@class=\"pagination\"]//span[@class=\"fa fa-angle-right\"]/..";
     String strXpathSuchlistenElemente = "//div[@class='project-list']/*";
-    FreelanceDEGrabben fdeg_FreelanceDEBasisObject;
     public FreelanceDESuchlisteMaske(FreelanceDEGrabben pSuperclass)
     {
-        fdeg_FreelanceDEBasisObject = pSuperclass;
-        this.gObjWebDriver = fdeg_FreelanceDEBasisObject.gObjWebDriver;
+        super();
+        this.wWebseite = pSuperclass.wWebseite;
+        this.gObjWebDriver = pSuperclass.gObjWebDriver;
     }
-    public boolean suchlistebearbeiten(Testdatum ptTestdatum)
+    public boolean suchlistebearbeiten()
     {
         boolean Ergebnis = false;
         List<WebElement> ListeSuchergebnisse = webelementeFinden(SelectorType.xpath, strXpathSuchlistenElemente);
         // TimeUnit.SECONDS.sleep(5);
+        // Wenn keine Ergebnisse gefunden werden, wird die Funktion erfolgreich beendet
+        if (ListeSuchergebnisse==null || ListeSuchergebnisse.size()==0)
+            return true;
         try {
-            Ergebnis = sucheinträgeSichern(ListeSuchergebnisse, ptTestdatum.ivstSpeichertyp);
+            Ergebnis = sucheinträgeSichern(ListeSuchergebnisse, Config.stSpeicherTyp);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -100,7 +104,7 @@ public class FreelanceDESuchlisteMaske extends VakanzenGrabber {
             //=====================================================================
             // Inserat sichern
             // =====================================================================
-            iTempInserat = new FreelanceDEInseratMaske(fdeg_FreelanceDEBasisObject).inseratSichern(strLinkZiel);
+            iTempInserat = new FreelanceDEInseratMaske(this).inseratSichern(strLinkZiel);
             if (iTempInserat != null)
                 lInserate.add(iTempInserat);
         }

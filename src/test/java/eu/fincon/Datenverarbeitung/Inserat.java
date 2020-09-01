@@ -11,6 +11,7 @@ public class Inserat {
     // Variablendeklaration für die Metadaten
     // =====================================================================
     public String strStartDatum;
+    public String strDauer;
     public String strEndeDatum;
     public String strOrt;
     public String strBezahlung;
@@ -39,6 +40,7 @@ public class Inserat {
         // =====================================================================
         strTitel = Standardwert;
         strStartDatum = Standardwert;
+        strDauer = Standardwert;
         strEndeDatum = Standardwert;
         strOrt = Standardwert;
         strBezahlung = Standardwert;
@@ -53,7 +55,7 @@ public class Inserat {
         // Alle Werte des Inserates werden Semikolon-separiet zurückgegeben.
         // URL;Titel;StartDatum;EndeDatum;Ort;Bezahlung;LetztesUpdate;ReferenzNummer;Projektbeschreibung
         // =====================================================================
-        return strURL + ";" + strTitel + ";" + strStartDatum + ";" + strEndeDatum + ";" + strOrt + ";" + strBezahlung + ";" + strLetztesUpdate + ";" + strRemote + ";" + strReferenzNummer + ";" + strProjektbeschreibung + ";" + strKategorienUndSkills + ";" + strKontaktdaten;
+        return strURL + ";" + strTitel + ";" + strStartDatum+ ";" + strDauer + ";" + strEndeDatum + ";" + strOrt + ";" + strBezahlung + ";" + strLetztesUpdate + ";" + strRemote + ";" + strReferenzNummer + ";" + strProjektbeschreibung + ";" + strKategorienUndSkills + ";" + strKontaktdaten;
     }
 
     //=====================================================================
@@ -61,7 +63,7 @@ public class Inserat {
     // =====================================================================
     public static String getCSVSpalten()
     {
-        return "URL;Titel;Start;Ende;Ort;Bezahlung;Letztes Update;Remote;Referenz Nummer;Projektbeschreibung;Kategorien und Skills;Kontaktdaten";
+        return "URL;Titel;Start;Dauer;Ende;Ort;Bezahlung;Letztes Update;Remote;Referenz Nummer;Projektbeschreibung;Kategorien und Skills;Kontaktdaten";
     }
     public String getURL()
     {

@@ -23,17 +23,18 @@ public class FreelanceDEAnmeldemaske extends  FreelanceDEGrabben {
     String getStrXpathWelcomePanel = "//div[@class='panel-welcome']";
     public FreelanceDEAnmeldemaske(FreelanceDEGrabben pSuperclass)
     {
+        super(pSuperclass.wWebseite);
         this.gObjWebDriver = pSuperclass.gObjWebDriver;
     }
 
-    public boolean anmelden(Testdatum ptTestdatum) {
+    public boolean anmelden() {
 
         boolean blnErgebnis;
         //=====================================================================
         // Anmeldeseite öffnen
         //    TODO
         //=====================================================================
-        if (ptTestdatum.strBenutzername.contentEquals("") || ptTestdatum.strPasswort.contentEquals(""))
+        if (wWebseite.strBenutzername.contentEquals("") || wWebseite.strPasswort.contentEquals(""))
         {
             //=====================================================================
             // Wenn eine der Variablen "strBenutzername" oder "strPasswort leer sind
@@ -57,13 +58,13 @@ public class FreelanceDEAnmeldemaske extends  FreelanceDEGrabben {
         //
         //=====================================================================
         WebElement benutzernamefeld = webelementFinden(VakanzenGrabber.SelectorType.xpath, strXpathBenutzername);
-        blnErgebnis = webelementSetzen(benutzernamefeld, ptTestdatum.strBenutzername);
+        blnErgebnis = webelementSetzen(benutzernamefeld, wWebseite.strBenutzername);
         //=====================================================================
         // Das Webelement für das Passwort wird ermittelt und gesetzt
         //
         //=====================================================================
         WebElement passwortfeld = webelementFinden(VakanzenGrabber.SelectorType.xpath, strXpathPassword);
-        blnErgebnis = webelementSetzen(passwortfeld, ptTestdatum.strPasswort);
+        blnErgebnis = webelementSetzen(passwortfeld, wWebseite.strPasswort);
         //=====================================================================
         // Das Webelement für den Anmeldebutton wird ermittelt und geklickt
         //

@@ -2,6 +2,7 @@ package eu.fincon;
 import eu.fincon.Datenverarbeitung.Config;
 import eu.fincon.Datenverarbeitung.Datentreiber;
 import eu.fincon.Datenverarbeitung.Testdatum;
+import eu.fincon.Datenverarbeitung.Webseite;
 import eu.fincon.Vakanzengrabber.FreelanceDE.FreelanceDEGrabben;
 
 import java.util.List;
@@ -21,29 +22,21 @@ public class Test {
         // Config Laden
         // =====================================================================
         Config.setBrowser();
+        Config.WebseitenlisteLaden();
         //=====================================================================
         // Es wird eine Schleif über alle Einträge des Testdatentreibers gelaufen
         // =====================================================================
-        for (Testdatum tTestdatum : lTestdatumListe)
-        {
-            System.out.println("--------\nTestdaten für Lauf\n--------\nURL" + tTestdatum.strURL + "\nSuchbegriff" + tTestdatum.strSuchbegriff+"\n--------");
-            //=====================================================================
-            // Je nach URL aus dem Testdatum wird die entsprechende Funktion aufgerufen.
-            // =====================================================================
-            switch (tTestdatum.eSeite)
-            {
-                case FreelanceDE:
-                    FreelanceDEGrabben FreelanceDE = new FreelanceDEGrabben();
-                    FreelanceDE.browserVorbereiten(tTestdatum);
-                    FreelanceDE.seiteOeffnen(tTestdatum);
-                    FreelanceDE.benutzerAnmelden(tTestdatum);
-                    FreelanceDE.sucheDurchfuehren(tTestdatum);
-                    FreelanceDE.suchlisteSichern(tTestdatum);
-                    FreelanceDE.seiteSchließen();
-                    break;
-                case FreelancerMap:
-                    // Schritte zur Automatisierung ergänzen
-                    break;
+        for (Webseite wWebseite : Config.strarrayWebseitenListe) {
+            for (Testdatum tTestdatum : lTestdatumListe) {
+
+                System.out.println("--------\nTestdaten für Lauf\n--------\nURL" + wWebseite.strURL + "\nSuchbegriff" + tTestdatum.strSuchbegriff + "\n--------");
+
+                wWebseite.VakanzenObject.browserVorbereiten();
+                wWebseite.VakanzenObject.seiteOeffnen();
+                wWebseite.VakanzenObject.benutzerAnmelden();
+                wWebseite.VakanzenObject.sucheDurchfuehren(tTestdatum);
+                wWebseite.VakanzenObject.suchlisteSichern();
+                wWebseite.VakanzenObject.seiteSchließen();
             }
         }
     }

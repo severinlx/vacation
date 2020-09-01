@@ -69,19 +69,7 @@ public class Datentreiber {
             boolean blnSkipTestdatum=false;
             Row row = mySheet.getRow(i);
             if (row != null) {
-                Cell cellSeite = row.getCell(0);
-                Cell cellSuchbegriff = row.getCell(1);
-                if (cellSeite != null)
-                {
-                    try {
-                        strSeite = cellSeite.getStringCellValue();
-                    }
-                    catch (Exception e)
-                    {
-                        blnSkipTestdatum = true;
-                        System.out.println("Skipped Testdatum (URL)"+e.getMessage());
-                    }
-                }
+                Cell cellSuchbegriff = row.getCell(0);
                 if (strSuchbegriff != null)
                 {
                     try {
@@ -95,7 +83,7 @@ public class Datentreiber {
                 }
             }
             if (!blnSkipTestdatum) {
-                lTestdatumListe.add(new Testdatum(strSeite, strSuchbegriff, InserateVerwalten.SpeicherTypen.csv));
+                lTestdatumListe.add(new Testdatum(strSuchbegriff));
             }
         }
         try {
