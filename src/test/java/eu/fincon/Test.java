@@ -3,9 +3,11 @@ import eu.fincon.Datenverarbeitung.Config;
 import eu.fincon.Datenverarbeitung.Datentreiber;
 import eu.fincon.Datenverarbeitung.Testdatum;
 import eu.fincon.Datenverarbeitung.Webseite;
+import eu.fincon.Logging.ExtendetLogger;
 import eu.fincon.Vakanzengrabber.FreelanceDE.FreelanceDEGrabben;
 
 import java.util.List;
+import java.util.logging.Level;
 
 public class Test {
     //=====================================================================
@@ -23,6 +25,11 @@ public class Test {
         // =====================================================================
         Config.setBrowser();
         Config.WebseitenlisteLaden();
+        //=====================================================================
+        // Logger setup
+        // =====================================================================
+        ExtendetLogger.setup();
+        ExtendetLogger.setLogLevel(Level.ALL);
         //=====================================================================
         // Es wird eine Schleif über alle Einträge des Testdatentreibers gelaufen
         // =====================================================================

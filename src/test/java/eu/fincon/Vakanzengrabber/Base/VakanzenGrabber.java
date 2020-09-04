@@ -3,6 +3,7 @@ package eu.fincon.Vakanzengrabber.Base;
 import eu.fincon.Datenverarbeitung.Config;
 import eu.fincon.Datenverarbeitung.Testdatum;
 import eu.fincon.Datenverarbeitung.Webseite;
+import eu.fincon.Logging.ExtendetLogger;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -43,6 +44,7 @@ public class VakanzenGrabber {
     // =====================================================================
 
     protected boolean webseiteStarten(String pstrUrl, String pstrExpTitle) {
+        ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info, "Webseite wird geöffnet...");
         //=====================================================================
         // Declare local Variables
         //=====================================================================
@@ -57,11 +59,12 @@ public class VakanzenGrabber {
         // Get the actual Title and compare it with the expected Title
         //=====================================================================
         strActualTitle = seitentitelHolen();
-        System.out.println(strActualTitle + "==" + pstrExpTitle);
+        ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info, "Vergleich Seitentitel" + strActualTitle + "==" + pstrExpTitle);
         if (pstrExpTitle == "" || strActualTitle.contains(pstrExpTitle)) {
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info, "Seitentitel ist korrekt");
             return true;
         } else {
-            System.out.println("Seitentitel ist abweichend");
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe, "Seitentitel sind abweichend");
             return false;
         }
     }
@@ -93,16 +96,20 @@ public class VakanzenGrabber {
         switch (Config.bBrowser)
         {
             case Chrome:
+                ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.config, "Chrome-Browser wird verwendet");
                 chromebrowserEinrichten();
         }
         //=====================================================================
         // Browser wird maximiert
         //=====================================================================
         try {
+
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.config, "Browser wird maximiert...");
             gObjWebDriver.manage().window().maximize();
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.config, "Browser wurde maximiert");
         } catch (Exception e) {
-            System.out.println("Webbrowser konnte nicht maximiert werden");
-            System.out.println("Exception: " + e.getMessage());
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.warning, "Webbrowser konnte nicht maximiert werden");
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.warning, "Exception: " + e.getMessage());
         }
         //=====================================================================
         // Return
@@ -287,12 +294,13 @@ public class VakanzenGrabber {
     protected String seitentitelHolen() {
         String strActualTitle = "";
         try {
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info, "Seitentitel wird geholt...");
             strActualTitle = gObjWebDriver.getTitle();
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info, "Seitentitel = " + strActualTitle);
         } catch (Exception e) {
-            System.out.println("Der Seitentitel konnte nicht ermittelt werden");
-            System.out.println("Exception: " + e.getMessage());
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe, "Seitentitel konnte nicht ermittelt werden");
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe, "Exception: " + e.getMessage());
         }
-        System.out.println("Die Seite hat den Titel " + strActualTitle);
         return strActualTitle;
     }
     //=====================================================================
@@ -300,12 +308,14 @@ public class VakanzenGrabber {
     // =====================================================================
     private void urlOeffnen(String pstrUrl) {
         try {
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info, "URL ("+pstrUrl+")wird geöffnet...");
             gObjWebDriver.navigate().to(pstrUrl);
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info, "URL ("+pstrUrl+")wurde geöffnet");
         } catch (Exception e) {
-            System.out.println("Webbrowser konnte nicht zu der URL " + pstrUrl + " navigiert werden");
-            System.out.println("Exception: " + e.getMessage());
+
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe, "Webbrowser konnte nicht zu der URL " + pstrUrl + " navigiert werden");
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe, "Exception: " + e.getMessage());
         }
-        System.out.println("Webbrowser hat die URL " + pstrUrl + " geöffnet");
     }
 
     //=====================================================================
