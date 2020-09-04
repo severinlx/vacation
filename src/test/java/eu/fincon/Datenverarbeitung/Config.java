@@ -1,5 +1,6 @@
 package eu.fincon.Datenverarbeitung;
 
+import eu.fincon.Logging.ExtendetLogger;
 import eu.fincon.Vakanzengrabber.Base.VakanzenGrabber;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -12,14 +13,19 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 public class Config {
     public static eu.fincon.Datenverarbeitung.InserateVerwalten.SpeicherTypen stSpeicherTyp = InserateVerwalten.SpeicherTypen.csv;
     public static Webseite[] strarrayWebseitenListe;
     public static VakanzenGrabber.Browser bBrowser;
-    public Config()
+    public static Level lLogLevel;
+    public static void init()
     {
         WebseitenlisteLaden();
+        setBrowser();
+        setLogLevel();
+        ExtendetLogger.setLogLevel(lLogLevel);
     }
     public static void WebseitenlisteLaden()
     {
@@ -30,7 +36,7 @@ public class Config {
 
         if (rootElement==null)
         {
-            System.out.println("Config.XML konnte nicht geladen werden");
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe,"Config.XML konnte nicht geladen werden");
             return;
         }
         //=====================================================================
@@ -73,6 +79,43 @@ public class Config {
                 bBrowser = VakanzenGrabber.Browser.Chrome;
         }
     }
+    public static void setLogLevel()
+    {
+        //=====================================================================
+        // Holt den Wert für das Element Browser aus der Config und setzt
+        // die statische Variable bBrowser auf den entsprechenden Wert
+        // =====================================================================
+        String strLogLevelAusConfig = getWertAusConfig("", "LogLevel");
+        switch (strLogLevelAusConfig.toLowerCase())
+        {
+            case "all":
+                lLogLevel = Level.ALL;
+                break;
+            case "info":
+                lLogLevel = Level.INFO;
+                break;
+            case "config":
+                lLogLevel = Level.ALL;
+                break;
+            case "warning":
+                lLogLevel = Level.WARNING;
+                break;
+            case "fine":
+                lLogLevel = Level.FINE;
+                break;
+            case "finer":
+                lLogLevel = Level.FINER;
+                break;
+            case "finest":
+                lLogLevel = Level.FINEST;
+                break;
+            case "off":
+                lLogLevel = Level.OFF;
+                break;
+            default:
+                lLogLevel = Level.ALL;
+        }
+    }
     static Element getRootElement()
     {
         //=====================================================================
@@ -80,7 +123,7 @@ public class Config {
         // =====================================================================
         if (new File(strConfigFilePath).exists() == false)
         {
-            System.out.println("Datei gefunden");
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info,"Datei nicht gefunden - " + strConfigFilePath);
             return null;
         }
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -89,6 +132,7 @@ public class Config {
             builder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe,"Exception: " + e.getMessage());
             return null;
         }
         Document document = null;
@@ -96,12 +140,16 @@ public class Config {
             //=====================================================================
             // Parsed die Datei in dem übergebenen Pfad zu XML
             // =====================================================================
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info,"Dokument " + strConfigFilePath + " wird geladen...");
             document = builder.parse(new InputSource(strConfigFilePath));
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info,"Dokument " + strConfigFilePath + " wurde geladen");
         } catch (SAXException e) {
             e.printStackTrace();
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe,"Exception: " + e.getMessage());
             return null;
         } catch (IOException e) {
             e.printStackTrace();
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe,"Exception: " + e.getMessage());
             return null;
         }
 
@@ -154,7 +202,9 @@ public class Config {
                     // =====================================================================
                     for (int j = 0; j < eSeitenElemente.item(i).getAttributes().getLength(); j++) {
                         if (eSeitenElemente.item(i).getAttributes().item(j).getNodeName().toLowerCase().contentEquals(pstrAttributName)) {
+                            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info,"Wert aus Attribut (" + pstrAttributName + ") wird aus XML geladen...");
                             strValue = eSeitenElemente.item(i).getAttributes().item(j).getNodeValue();
+                            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info,"Wert " + strValue + " aus Attribut (" + pstrAttributName + ") wurde aus XML geladen");
                             break;
                         }
                     }

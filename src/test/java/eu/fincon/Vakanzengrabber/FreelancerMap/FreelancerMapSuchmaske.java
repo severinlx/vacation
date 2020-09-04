@@ -2,6 +2,7 @@ package eu.fincon.Vakanzengrabber.FreelancerMap;
 
 import eu.fincon.Datenverarbeitung.Testdatum;
 import eu.fincon.Datenverarbeitung.Webseite;
+import eu.fincon.Logging.ExtendetLogger;
 import org.openqa.selenium.WebElement;
 
 public class FreelancerMapSuchmaske extends FreelancerMapGrabben {
@@ -25,7 +26,7 @@ public class FreelancerMapSuchmaske extends FreelancerMapGrabben {
         blnErgebnis = webelementSetzen(suchfeld, ptTestdatum.strSuchbegriff);
         if (!blnErgebnis)
         {
-            System.out.println("Fehler beim Setzen des Suchbegriffs.");
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe,"Fehler beim Setzen des Suchbegriffs.");
             assert (1==0);
         }
         //=====================================================================
@@ -36,7 +37,7 @@ public class FreelancerMapSuchmaske extends FreelancerMapGrabben {
         blnErgebnis = webelementKlicken(suchButton);
         if (!blnErgebnis)
         {
-            System.out.println("Fehler beim Klicken auf den Suchbutton.");
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe,"Fehler beim Klicken des auf den Suchbutton.");
             assert (1==0);
         }
         //=====================================================================

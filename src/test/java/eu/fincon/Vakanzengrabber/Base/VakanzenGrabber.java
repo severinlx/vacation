@@ -4,11 +4,14 @@ import eu.fincon.Datenverarbeitung.Config;
 import eu.fincon.Datenverarbeitung.Testdatum;
 import eu.fincon.Datenverarbeitung.Webseite;
 import eu.fincon.Logging.ExtendetLogger;
+import eu.fincon.Logging.WebDriverListener;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.By; //Identifikationstyp xpath, oder class name, id  etc.
 import org.openqa.selenium.WebElement; //das identifizierte Element funktionen ausführen zB klick
+import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.openqa.selenium.support.events.WebDriverEventListener;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -20,7 +23,7 @@ import java.util.List;
 // =====================================================================
 public class VakanzenGrabber {
     public Webseite wWebseite;
-    public WebDriver gObjWebDriver;
+    public EventFiringWebDriver gObjWebDriver;
 
     public enum SelectorType {
         xpath,
@@ -74,14 +77,16 @@ public class VakanzenGrabber {
         try {
             WebDriverManager.chromedriver().setup();
         } catch (Exception e) {
-            System.out.println("Exception: " + e.getMessage());
+            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe, "Exception: " + e.getMessage());
             return false;
         }
         //=====================================================================
         // Webdriver initialisieren:
         //=====================================================================
         try {
-            gObjWebDriver = new ChromeDriver();
+            gObjWebDriver = new EventFiringWebDriver(new ChromeDriver());
+            WebDriverListener activity = new WebDriverListener();
+            gObjWebDriver.register(activity);
         } catch (Exception e) {
             System.out.println("Webbrowser konnte nicht maximiert werden");
             System.out.println("Exception: " + e.getMessage());
@@ -231,7 +236,13 @@ public class VakanzenGrabber {
         try {
             element.sendKeys(Wert);
         } catch (Exception e) {
-            System.out.println("Das Element" + element.getTagName() + " konnte nicht auf den Wert \"" + Wert + "\" gesetzt werden.");
+            if (element != null) {
+                System.out.println("Das Element" + element.getTagName() + " konnte nicht auf den Wert \"" + Wert + "\" gesetzt werden.");
+            }
+            else
+            {
+                System.out.println("Das Elemen konnte nicht auf den Wert \"" + Wert + "\" gesetzt werden, da es NULL ist.");
+            }
             return false;
         }
         System.out.println("Das Element " + element.getTagName() + " wurde auf den Wert " + Wert + " gesetzt");

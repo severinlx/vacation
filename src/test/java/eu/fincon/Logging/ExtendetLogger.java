@@ -1,11 +1,12 @@
 package eu.fincon.Logging;
 import java.io.File;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.logging.*;
 
 public class ExtendetLogger {
     static Logger logger = null;
-    static String strLogFilePath = "Log.log";
+    static String strLogFilePath = "Log.html";
     public enum LogTypes{
         severe,
         warning,
@@ -17,7 +18,7 @@ public class ExtendetLogger {
     }
     public static void setup()
     {
-        logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+        logger = Logger.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
         createFileHandler();
         setLogLevel(Level.ALL);
     }
@@ -36,9 +37,10 @@ public class ExtendetLogger {
         try {
             // This block configure the logger with handler and formatter
             fh = new FileHandler(strLogFilePath);
+            // Setzt den Formatter auf die CustomFormatter Klasse
+            fh.setFormatter(new CustomFormatter());
+            // Fügt den Handler (FileHandler) dem Logger hinzu
             logger.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
 
         } catch (SecurityException e) {
             e.printStackTrace();
@@ -46,9 +48,12 @@ public class ExtendetLogger {
             e.printStackTrace();
         }
     }
-
     public static void LogEntry(LogTypes pltType, String pstrMessage)
     {
+        String strClassName = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass().toString();
+        String strMethodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+
+        pstrMessage = pstrMessage + ";" + strClassName + ";" + strMethodName;
         switch (pltType)
         {
             case severe:
