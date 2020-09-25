@@ -1,8 +1,11 @@
 package eu.fincon.Vakanzengrabber.FreelanceDE;
 
+import com.relevantcodes.extentreports.LogStatus;
 import eu.fincon.Datenverarbeitung.Inserat;
 import eu.fincon.Vakanzengrabber.Base.VakanzenGrabber;
 import org.openqa.selenium.WebElement;
+
+import static eu.fincon.Logging.ExtendetLogger.LogEntry;
 
 public class FreelanceDEInseratMaske extends VakanzenGrabber {
     //=====================================================================
@@ -86,8 +89,8 @@ public class FreelanceDEInseratMaske extends VakanzenGrabber {
 
         iAktuellesInserat.strKontaktdaten = webelementTextauslesen(webKontaktdaten);
 
+        LogEntry(LogStatus.PASS, "Das Inserat <br>" + iAktuellesInserat.strTitel + "<br> wurde gesichert");
 
-        System.out.println("Das Inserat " + iAktuellesInserat.strTitel + " wurde gesichert");
         return iAktuellesInserat;
     }
 }

@@ -1,8 +1,11 @@
 package eu.fincon.Vakanzengrabber.FreelanceDE;
 
+import com.relevantcodes.extentreports.LogStatus;
 import eu.fincon.Datenverarbeitung.Testdatum;
 import eu.fincon.Vakanzengrabber.Base.VakanzenGrabber;
 import org.openqa.selenium.WebElement;
+
+import static eu.fincon.Logging.ExtendetLogger.LogEntry;
 
 public class FreelanceDEAnmeldemaske extends  FreelanceDEGrabben {
     //=====================================================================
@@ -44,6 +47,7 @@ public class FreelanceDEAnmeldemaske extends  FreelanceDEGrabben {
         }
         if (seitentitelHolen().contains("Freelancer, Freiberufler und ") == false)
         {
+            LogEntry(LogStatus.FAIL, "Der Seitentitel entspricht nicht dem erwarteten Titel zur Anmeldung");
             return false;
         }
         //=====================================================================
@@ -79,16 +83,19 @@ public class FreelanceDEAnmeldemaske extends  FreelanceDEGrabben {
         //=====================================================================
         if (webelementFinden(SelectorType.xpath, strXpathFehlermeldungBeiAnmeldung, 1)==null /*&& webelementFinden(SelectorType.xpath, getStrXpathWelcomePanel, 1)!=null*/)
         {
-            System.out.println("Anmeldung war erfolgreich");
+            LogEntry(LogStatus.PASS, "Anmeldung war erfolgreich");
             blnErgebnis = true;
         }
         else
         {
             System.out.println("Anmeldung war Fehlerhaft");
+            LogEntry(LogStatus.FAIL, "Anmeldung war Fehlerhaft");
             blnErgebnis = false;
         }
+        LogEntry(LogStatus.INFO, "Logo wird geklickt...");
         WebElement webHeaderLogo = webelementFinden(SelectorType.xpath, strXpathHeaderLogo);
         webelementKlicken(webHeaderLogo);
+        LogEntry(LogStatus.INFO, "Logo wurde geklickt");
         return blnErgebnis;
     }
 }

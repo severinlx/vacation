@@ -1,5 +1,8 @@
 package eu.fincon.Datenverarbeitung;
 
+import com.relevantcodes.extentreports.LogStatus;
+import eu.fincon.Logging.ExtendetLogger;
+
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,23 +31,25 @@ public class InserateVerwalten {
         File fileExportFile = null;
         String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss"));
         String strAbsoluterPfad = ExportPfad +"_"+ formattedDateTime +".csv";
+        ExtendetLogger.LogEntry(LogStatus.INFO, "Dateipfad für Sicherung = " + strAbsoluterPfad);
+
         try {
             fileExportFile = new File(strAbsoluterPfad);
             if (fileExportFile.exists()) {
-                System.out.println("Die Datei ist bereits vorhanden und wird vor dem Sichern entfernt. Speichertyp = " + pstSpeicherTyp.toString());
+                ExtendetLogger.LogEntry(LogStatus.FATAL, "Die Datei ist bereits vorhanden und wird vor dem Sichern entfernt. Speichertyp = " + pstSpeicherTyp.toString());
                 fileExportFile.delete();
             }
             fileExportFile.createNewFile();
         }
         catch (Exception e) {
-            System.out.println("Die Export-Datei konnte nicht erzeugt werden");
+            ExtendetLogger.LogEntry(LogStatus.FATAL, "Die Export-Datei konnte nicht erzeugt werden");
             return;
         }
 
         try {
             osExportFile = new FileOutputStream(strAbsoluterPfad);
         } catch (Exception e) {
-            e.printStackTrace();
+            ExtendetLogger.LogEntry(LogStatus.FATAL, "Exception in CSV schreiben  - " + e.getMessage());
         }
         inCSVDateiSchreiben (osExportFile, "#;"+Inserat.getCSVSpalten());
         //=====================================================================
@@ -55,7 +60,7 @@ public class InserateVerwalten {
         {
             switch (pstSpeicherTyp) {
                 case csv:
-                    System.out.println("Speichertyp wird verwendet -> " + pstSpeicherTyp.toString());
+                    ExtendetLogger.LogEntry(LogStatus.INFO, "Speichertyp wird verwendet -> " + pstSpeicherTyp.toString());
                     String strInseratStringCSV = i.getInseratStringCSV();
                     inCSVDateiSchreiben(osExportFile, Integer.toString(index)+";"+strInseratStringCSV);
                     break;
@@ -63,7 +68,7 @@ public class InserateVerwalten {
                     // Weitere Exporte möglich
                     break;
                 default:
-                    System.out.println("Speichertyp wurde nicht gefunden - " + pstSpeicherTyp.toString());
+                    ExtendetLogger.LogEntry(LogStatus.WARNING, "Speichertyp wurde nicht gefunden - " + pstSpeicherTyp.toString());
                     return;
             }
             index ++;
@@ -72,7 +77,7 @@ public class InserateVerwalten {
             osExportFile.flush();
             osExportFile.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            ExtendetLogger.LogEntry(LogStatus.FATAL, "Exception in CSV schreiben  - " + e.getMessage());
         }
     }
     public void inCSVDateiSchreiben (OutputStream fileExportFile, String pstrInseratStringCSV)
@@ -93,12 +98,16 @@ public class InserateVerwalten {
         // =====================================================================
         try {
             pwExport = new PrintWriter(new OutputStreamWriter(fileExportFile, "UTF-8"));
+            ExtendetLogger.LogEntry(LogStatus.INFO, "Text wird in die Datei geschrieben...");
             pwExport.append(strText);
+            ExtendetLogger.LogEntry(LogStatus.INFO, "Text wurde in die Datei geschrieben.<br>" + strText);
             pwExport.flush();
         } catch (Exception e) {
-            System.out.println("Exception in CSV schreiben  - " + e.getMessage());
+            ExtendetLogger.LogEntry(LogStatus.FATAL, "Exception in CSV schreiben  - " + e.getMessage());
+
+            System.out.println();
         }
-        System.out.println("Text erfolgreich in die Datei geschrieben  - " + strText);
+        ExtendetLogger.LogEntry(LogStatus.PASS, "Text erfolgreich in die Datei geschrieben  - " + strText);
 
     }
 }

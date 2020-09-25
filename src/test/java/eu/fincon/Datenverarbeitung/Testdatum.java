@@ -15,6 +15,5 @@ public class Testdatum
         // Bei der Instanziierung müssen Parameter übergeben werden, diese werden in die Variablen gesichert
         // ====================================================================
         strSuchbegriff = pstrSuchbegriff;
-        System.out.println(strSuchbegriff);
     }
 }

@@ -1,4 +1,5 @@
 package eu.fincon;
+import com.relevantcodes.extentreports.LogStatus;
 import eu.fincon.Datenverarbeitung.Config;
 import eu.fincon.Datenverarbeitung.Datentreiber;
 import eu.fincon.Datenverarbeitung.Testdatum;
@@ -18,7 +19,7 @@ public class Test {
         //=====================================================================
         // Logger setup
         // =====================================================================
-        ExtendetLogger.setup();
+        ExtendetLogger.setup("Vakanzengrabber");
         //=====================================================================
         // Eine Liste (Typ Testdatum) wird aus der übergebenen Datei erstellt
         // =====================================================================
@@ -30,14 +31,15 @@ public class Test {
         //=====================================================================
         // Tests werden ermittelt und geloggt
         // =====================================================================
-        ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info,"Es werden "+Config.strarrayWebseitenListe.length+" Webseiten geprüft");
-        ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info,"Es werden "+lTestdatumListe.size()+" Testdaten pro Seite geprüft");
+        ExtendetLogger.LogEntry(LogStatus.INFO,"Es werden "+Config.strarrayWebseitenListe.length+" Webseiten geprüft");
+        ExtendetLogger.LogEntry(LogStatus.INFO,"Es werden "+lTestdatumListe.size()+" Testdaten pro Seite geprüft");
         //=====================================================================
         // Es wird eine Schleif über alle Einträge des Testdatentreibers gelaufen
         // ====================================================================
         for (Webseite wWebseite : Config.strarrayWebseitenListe) {
             for (Testdatum tTestdatum : lTestdatumListe) {
-                ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.info,"Webseite - "+wWebseite.strURL+
+                ExtendetLogger.CreateChild(wWebseite.eSeite.toString() + "_" + tTestdatum.strSuchbegriff);
+                ExtendetLogger.LogEntry(LogStatus.INFO,"Webseite - "+wWebseite.strURL+
                         " mit dem Suchbegriff -"+tTestdatum.strSuchbegriff+" wird ausgeführt...");
                 //=====================================================================
                 // Die Seitenspezifischen Methoden aus der jeweiligen Klasse werden aufgerufen
@@ -48,7 +50,12 @@ public class Test {
                 wWebseite.VakanzenObject.sucheDurchfuehren(tTestdatum);
                 wWebseite.VakanzenObject.suchlisteSichern();
                 wWebseite.VakanzenObject.seiteSchließen();
+                ExtendetLogger.AppendChild();
             }
         }
+        //=====================================================================
+        // Logger finish
+        // =====================================================================
+        ExtendetLogger.finish();
     }
 }

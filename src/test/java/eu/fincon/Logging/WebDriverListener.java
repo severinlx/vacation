@@ -1,5 +1,6 @@
 package eu.fincon.Logging;
 
+import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
@@ -25,19 +26,25 @@ public class WebDriverListener implements WebDriverEventListener {
     }
     public void afterClickOn(WebElement arg0, WebDriver arg1) {
         if (arg0 != null)
-            LogEntry(LogTypes.info, "Element " + arg0.toString() + " wurde geklickt");
+            LogEntry(LogStatus.INFO, "Element " + arg0.toString() + " wurde geklickt");
+        else
+            LogEntry(LogStatus.WARNING, "Das Element konnte nicht geklickt werden " + arg0.toString());
     }
     public void afterFindBy(By arg0, WebElement arg1, WebDriver arg2) {
         if (arg0 != null && arg1 != null)
-            LogEntry(LogTypes.info, "Das Element " + arg1.toString() + " wurde mittels " + arg0.toString() + " ermittelt");
+            LogEntry(LogStatus.INFO, "Das Element " + arg1.toString() + " wurde mittels " + arg0.toString() + " ermittelt");
+        else
+            LogEntry(LogStatus.WARNING, "Das Element konnte nicht mittels " + arg0.toString() + " ermittelt werden");
     }
     public <X> void afterGetScreenshotAs(OutputType<X> arg0, X arg1) {
         if (arg1 != null)
-            LogEntry(LogTypes.info, "Screenshot von " + arg1.toString() + " soll erstellt werden...");
+            LogEntry(LogStatus.INFO, "Screenshot von " + arg1.toString() + " soll erstellt werden...");
     }
     public void afterGetText(WebElement arg0, WebDriver arg1, String arg2){
         if (arg0 != null && arg2 != null)
-            LogEntry(LogTypes.info, "Aus dem Element " + arg0.toString() + " wurde der Wert " + arg2 + " ausgelesen");
+            LogEntry(LogStatus.INFO, "Aus dem Element " + arg0.toString() + " wurde der Wert " + arg2 + " ausgelesen");
+        else
+            LogEntry(LogStatus.FATAL, "Aus dem Element konnte der Wert nicht ausgelesen werden.\n" + arg1.toString());
     }
     public void afterNavigateBack(WebDriver arg0) {
 // TODO Auto-generated method stub
@@ -50,7 +57,7 @@ public class WebDriverListener implements WebDriverEventListener {
     }
     public void afterNavigateTo(String arg0, WebDriver arg1) {
         if (arg0 != null)
-            LogEntry(LogTypes.info, "Es wurde die Seite " + arg0 + " geöffnet");
+            LogEntry(LogStatus.INFO, "Es wurde die Seite " + arg0 + " geöffnet");
     }
     public void afterScript(String arg0, WebDriver arg1) {
 // TODO Auto-generated method stub
@@ -69,25 +76,25 @@ public class WebDriverListener implements WebDriverEventListener {
     }
     public void beforeClickOn(WebElement arg0, WebDriver arg1) {
         if (arg0 != null)
-            LogEntry(LogTypes.info, "Element " + arg0.toString() + " soll geklickt werden...");
+            LogEntry(LogStatus.INFO, "Element " + arg0.toString() + " soll geklickt werden...");
         else
-            LogEntry(LogTypes.info, "Das zu klickende Element ist null...");
+            LogEntry(LogStatus.INFO, "Das zu klickende Element ist null...");
     }
     public void beforeFindBy(By arg0, WebElement arg1, WebDriver arg2) {
         if (arg1 != null && arg0 != null)
-            LogEntry(LogTypes.info, "Das Element " + arg1.toString() + " soll mittels " + arg0.toString() + " ermittelt werden...");
+            LogEntry(LogStatus.INFO, "Das Element " + arg1.toString() + " soll mittels " + arg0.toString() + " ermittelt werden...");
         else if (arg0 != null)
-            LogEntry(LogTypes.info, "Das Element soll mittels" + arg0.toString() + " ermittelt werden...");
+            LogEntry(LogStatus.INFO, "Das Element soll mittels" + arg0.toString() + " ermittelt werden...");
     }
     public <X> void beforeGetScreenshotAs(OutputType<X> arg0) {
         if (arg0 != null)
-            LogEntry(LogTypes.info, "Screenshot von " + arg0.toString() + " soll erstellt werden...");
+            LogEntry(LogStatus.INFO, "Screenshot von " + arg0.toString() + " soll erstellt werden...");
     }
     public void beforeGetText(WebElement arg0, WebDriver arg1) {
         if (arg0 != null)
-            LogEntry(LogTypes.info, "Aus dem Element " + arg0.toString() + " soll der Wert ausgelesen werden...");
+            LogEntry(LogStatus.INFO, "Aus dem Element " + arg0.toString() + " soll der Wert ausgelesen werden...");
         else
-            LogEntry(LogTypes.warning, "Das auszulesende Element ist NULL");
+            LogEntry(LogStatus.INFO, "Das auszulesende Element ist NULL");
     }
     public void beforeNavigateBack(WebDriver arg0) {
 // TODO Auto-generated method stub
@@ -100,7 +107,7 @@ public class WebDriverListener implements WebDriverEventListener {
     }
     public void beforeNavigateTo(String arg0, WebDriver arg1) {
         if (arg0 != null)
-            LogEntry(LogTypes.info, "Die Seite " + arg0 + " soll geöffnet werden...");
+            LogEntry(LogStatus.INFO, "Die Seite " + arg0 + " soll geöffnet werden...");
     }
     public void beforeScript(String arg0, WebDriver arg1) {
 // TODO Auto-generated method stub
@@ -111,8 +118,8 @@ public class WebDriverListener implements WebDriverEventListener {
     public void onException(Throwable arg0, WebDriver arg1) {
 // TODO Auto-generated method stub
         if (arg0 != null)
-            LogEntry(LogTypes.severe, "Exception: " + arg0.getMessage());
+            LogEntry(LogStatus.WARNING, "Exception: " + arg0.getMessage());
         else
-            LogEntry(LogTypes.severe, "Unkown Exception");
+            LogEntry(LogStatus.WARNING, "Unkown Exception");
     }
 }

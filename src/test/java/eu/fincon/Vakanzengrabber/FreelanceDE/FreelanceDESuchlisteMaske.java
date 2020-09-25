@@ -1,5 +1,6 @@
 package eu.fincon.Vakanzengrabber.FreelanceDE;
 
+import com.relevantcodes.extentreports.LogStatus;
 import eu.fincon.Datenverarbeitung.Config;
 import eu.fincon.Datenverarbeitung.Inserat;
 import eu.fincon.Datenverarbeitung.InserateVerwalten;
@@ -10,6 +11,8 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static eu.fincon.Logging.ExtendetLogger.LogEntry;
 
 public class FreelanceDESuchlisteMaske extends VakanzenGrabber {
     //=====================================================================
@@ -35,7 +38,7 @@ public class FreelanceDESuchlisteMaske extends VakanzenGrabber {
         try {
             Ergebnis = sucheinträgeSichern(ListeSuchergebnisse, Config.stSpeicherTyp);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LogEntry(LogStatus.INFO, "Exception:<br>" + e.getMessage());
         }
         return Ergebnis;
     }
@@ -60,10 +63,12 @@ public class FreelanceDESuchlisteMaske extends VakanzenGrabber {
                 // Inserat auf Basis des Indexes öffnen
                 // Der Link zum Inserat wird zusätzlich gesichert
                 // =====================================================================
-                System.out.println(strXpathSuchlisteneintrag.replace("[i]",String.valueOf(i)));
-                WebElement suchJobtitel = webelementFinden(SelectorType.xpath, strXpathSuchlisteneintrag.replace("[i]",String.valueOf(i)), 1);
+                System.out.println();
+                String strInseratXPath = strXpathSuchlisteneintrag.replace("[i]",String.valueOf(i));
+                WebElement suchJobtitel = webelementFinden(SelectorType.xpath, strInseratXPath, 1);
                 if (suchJobtitel != null) {
                     strLinkZiel = suchJobtitel.getAttribute("href");
+                    LogEntry(LogStatus.INFO, "Inserat:" + strLinkZiel+" wird gesichert");
                     lInseratURLs.add(strLinkZiel);
                 }
             }
@@ -76,7 +81,7 @@ public class FreelanceDESuchlisteMaske extends VakanzenGrabber {
             WebElement naechsteSeiteButton = webelementFinden(SelectorType.xpath, strXPathnaechsteSeite, 0);
             if (naechsteSeiteButton != null)
             {
-                System.out.println("Es ist eine weitere Seite vorhanden - Das Webelement wird geklickt");
+                LogEntry(LogStatus.INFO, "Es ist eine weitere Seite vorhanden - Das Webelement wird geklickt");
                 webelementKlicken(naechsteSeiteButton);
                 // Quick and Dirty !!!
                 TimeUnit.SECONDS.sleep(1);
@@ -84,7 +89,7 @@ public class FreelanceDESuchlisteMaske extends VakanzenGrabber {
             }
             else
             {
-                System.out.println("Es ist keine weitere Seite mehr vorhanden - Die Schleife für die Seiten wird beendet");
+                LogEntry(LogStatus.INFO, "Es ist keine weitere Seite mehr vorhanden - Die Schleife für die Seiten wird beendet");
                 break;
             }
         }
@@ -92,6 +97,7 @@ public class FreelanceDESuchlisteMaske extends VakanzenGrabber {
         // Endlosschleife bis das Webelement für die nächste Seite == null ist
         // =====================================================================
         while (1==1);
+        LogEntry(LogStatus.PASS, "Es wurden " + lInseratURLs.size() + " Inserat-URLs gesammelt");
 
 
         //=====================================================================
@@ -104,10 +110,14 @@ public class FreelanceDESuchlisteMaske extends VakanzenGrabber {
             //=====================================================================
             // Inserat sichern
             // =====================================================================
+            LogEntry(LogStatus.INFO, "Inserat wird gesichert...");
             iTempInserat = new FreelanceDEInseratMaske(this).inseratSichern(strLinkZiel);
+            LogEntry(LogStatus.INFO, "Inserate wurde gesichert");
             if (iTempInserat != null)
+                LogEntry(LogStatus.INFO, "Inserate wird in die Liste gesichert");
                 lInserate.add(iTempInserat);
         }
+        LogEntry(LogStatus.PASS, "Es wurden " + lInserate.size() + " Inserate gesammelt");
 
 
         //=====================================================================
@@ -115,9 +125,10 @@ public class FreelanceDESuchlisteMaske extends VakanzenGrabber {
         // an die Instanz wird Liste der Inserate übergeben
         // im Anschluss wird die Funktion zum Sichern aufgerufen
         // =====================================================================
+        LogEntry(LogStatus.INFO, "Die Inserateliste wird gesichert...");
         InserateHandler = new InserateVerwalten(lInserate);
         InserateHandler.inserateSichern(pivstSpeichertyp);
-        System.out.println("Die Inserateliste wurde gesichert");
+        LogEntry(LogStatus.PASS, "Die Inserateliste wurde gesichert");
         return true;
     }
 

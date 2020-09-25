@@ -1,8 +1,11 @@
 package eu.fincon.Vakanzengrabber.FreelanceDE;
 
+import com.relevantcodes.extentreports.LogStatus;
 import eu.fincon.Datenverarbeitung.Testdatum;
 import eu.fincon.Datenverarbeitung.Webseite;
 import org.openqa.selenium.WebElement;
+
+import static eu.fincon.Logging.ExtendetLogger.LogEntry;
 
 public class FreelanceDESuchmaske extends FreelanceDEGrabben{
     //=====================================================================
@@ -25,7 +28,7 @@ public class FreelanceDESuchmaske extends FreelanceDEGrabben{
         blnErgebnis = webelementSetzen(suchfeld, ptTestdatum.strSuchbegriff);
         if (!blnErgebnis)
         {
-            System.out.println("Fehler beim Setzen des Suchbegriffs.");
+            LogEntry(LogStatus.FAIL, "Fehler beim Setzen des Suchbegriffs.");
             assert (1==0);
         }
         //=====================================================================
@@ -36,9 +39,10 @@ public class FreelanceDESuchmaske extends FreelanceDEGrabben{
         blnErgebnis = webelementKlicken(suchButton);
         if (!blnErgebnis)
         {
-            System.out.println("Fehler beim Klicken auf den Suchbutton.");
+            LogEntry(LogStatus.FAIL, "Fehler beim Klicken auf den Suchbutton.");
             assert (1==0);
         }
+        LogEntry(LogStatus.PASS, "Suche wurde durchgeführt");
         //=====================================================================
         // Die der WebElemente für die Suchergebnisse ermittelt und in einer Schleife durchlaufen
         //  //=====================================================================

@@ -34,7 +34,6 @@ public class FreelancerMapAnmeldemaske extends FreelancerMapGrabben {
         boolean blnErgebnis;
         //=====================================================================
         // Anmeldeseite öffnen
-        //    TODO
         //=====================================================================
         if (wWebseite.strBenutzername.contentEquals("") || wWebseite.strPasswort.contentEquals(""))
         {

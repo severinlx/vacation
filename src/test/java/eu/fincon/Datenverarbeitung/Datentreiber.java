@@ -1,4 +1,6 @@
 package eu.fincon.Datenverarbeitung;
+import com.relevantcodes.extentreports.LogStatus;
+import eu.fincon.Logging.ExtendetLogger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -17,12 +19,14 @@ public class Datentreiber {
     // Pfad zum Datentreiber
     // =====================================================================
     static String DatentreiberPfad = "Datentreiber.xlsx";
+    static String strSheetName = "Testdaten";
     public static void datentreiberSetzen(String pstrDateipfad)
     {
         DatentreiberPfad = pstrDateipfad;
     }
     public static List<Testdatum> getTestdatenEXCEL()
     {
+        ExtendetLogger.CreateChild("Testdaten einlesen");
         //=====================================================================
         // Die Liste an Testdaten wird erzeugt
         // =====================================================================
@@ -30,12 +34,13 @@ public class Datentreiber {
         //=====================================================================
         // Datei wird zum lesen geöffnet
         // =====================================================================
+        ExtendetLogger.LogEntry(LogStatus.INFO, "Testdaten werden geladen...");
         File myFile = new File(DatentreiberPfad);
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(myFile);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            ExtendetLogger.LogEntry(LogStatus.FATAL, "Testdaten-Datei konnte nicht geöffnet werden.\n" + "Exception: " + e.getMessage());
             return lTestdatumListe;
         }
         //=====================================================================
@@ -45,7 +50,7 @@ public class Datentreiber {
         try {
             myWorkBook = new XSSFWorkbook(fis);
         } catch (IOException e) {
-            e.printStackTrace();
+            ExtendetLogger.LogEntry(LogStatus.FATAL, "Workbook konnte nicht geöffnet werden.\n" + "Exception: " + e.getMessage());
             return lTestdatumListe;
         }
         //=====================================================================
@@ -53,7 +58,7 @@ public class Datentreiber {
         // =====================================================================
         // Return first sheet from the XLSX workbook
         // XSSFSheet mySheet = myWorkBook.getSheetAt(0);
-        XSSFSheet mySheet = myWorkBook.getSheet("Testdaten");
+        XSSFSheet mySheet = myWorkBook.getSheet(strSheetName);
         //=====================================================================
         // Iterator für Zeilen wird gesetzt
         // =====================================================================
@@ -61,6 +66,7 @@ public class Datentreiber {
         //=====================================================================
         // Schleife über die Zeilen der Mappe (Skip Header);
         // =====================================================================
+        ExtendetLogger.LogEntry(LogStatus.INFO, "Zeilen werden gesammelt...");
         for (int i = 1; i<mySheet.getPhysicalNumberOfRows();i++)
         {
             String strSeite="";
@@ -74,11 +80,12 @@ public class Datentreiber {
                 {
                     try {
                         strSuchbegriff = cellSuchbegriff.getStringCellValue();
+                        ExtendetLogger.LogEntry(LogStatus.INFO, "Suchbegriff eingelesen - " + strSuchbegriff);
                     }
                     catch (Exception e)
                     {
                         blnSkipTestdatum = true;
-                        System.out.println("Skipped Testdatum (Suchbegriff)"+e.getMessage());
+                        ExtendetLogger.LogEntry(LogStatus.SKIP, "Skipped Testdatum (Suchbegriff)"+e.getMessage());
                     }
                 }
             }
@@ -89,8 +96,10 @@ public class Datentreiber {
         try {
             fis.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            ExtendetLogger.LogEntry(LogStatus.FATAL, "Fehler beim schließen der Testdaten-Datei.\n" + "Exception: " + e.getMessage());
         }
+        ExtendetLogger.LogEntry(LogStatus.PASS, "Testdaten wurden gelesen");
+        ExtendetLogger.AppendChild();
         return lTestdatumListe;
     }
 }

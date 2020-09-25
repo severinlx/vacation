@@ -1,5 +1,6 @@
 package eu.fincon.Vakanzengrabber.FreelancerMap;
 
+import com.relevantcodes.extentreports.LogStatus;
 import eu.fincon.Datenverarbeitung.Testdatum;
 import eu.fincon.Datenverarbeitung.Webseite;
 import eu.fincon.Logging.ExtendetLogger;
@@ -22,11 +23,12 @@ public class FreelancerMapSuchmaske extends FreelancerMapGrabben {
         // Das Webelement für das Suchfeld wird identifiziert und auf den Suchbegriff gesetzt
         //
         //=====================================================================
+        ExtendetLogger.LogEntry(LogStatus.INFO, "Suchbegriff wird gesetzt...");
         WebElement suchfeld = webelementFinden(SelectorType.xpath, strXpathSuchfeld);
         blnErgebnis = webelementSetzen(suchfeld, ptTestdatum.strSuchbegriff);
         if (!blnErgebnis)
         {
-            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe,"Fehler beim Setzen des Suchbegriffs.");
+            ExtendetLogger.LogEntry(LogStatus.FAIL, "Fehler beim Setzen des Suchbegriffs.\nSuchbegriff: "+ptTestdatum.strSuchbegriff);
             assert (1==0);
         }
         //=====================================================================
@@ -37,9 +39,10 @@ public class FreelancerMapSuchmaske extends FreelancerMapGrabben {
         blnErgebnis = webelementKlicken(suchButton);
         if (!blnErgebnis)
         {
-            ExtendetLogger.LogEntry(ExtendetLogger.LogTypes.severe,"Fehler beim Klicken des auf den Suchbutton.");
+            ExtendetLogger.LogEntry(LogStatus.FAIL, "Fehler beim Klicken des auf den Suchbutton.");
             assert (1==0);
         }
+        ExtendetLogger.LogEntry(LogStatus.INFO, "Suchbegriff wurde gesetzt");
         //=====================================================================
         // Die der WebElemente für die Suchergebnisse ermittelt und in einer Schleife durchlaufen
         //  //=====================================================================

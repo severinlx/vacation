@@ -1,8 +1,11 @@
 package eu.fincon.Vakanzengrabber.FreelanceDE;
+import com.relevantcodes.extentreports.LogStatus;
 import eu.fincon.Datenverarbeitung.Testdatum;
 import eu.fincon.Datenverarbeitung.Webseite;
 import eu.fincon.Vakanzengrabber.Base.VakanzenGrabber;
 import org.openqa.selenium.WebElement;
+
+import static eu.fincon.Logging.ExtendetLogger.LogEntry;
 
 //=====================================================================
 // Enthält FreelanceDe spezifische Informationen
@@ -18,15 +21,19 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // Ruft den Constructor der Basisklasse auf
         // =====================================================================
         super();
+        LogEntry(LogStatus.INFO, "FreelanceDEGrabben wird instanziiert...");
         wWebseite = pwWebseite;
+        LogEntry(LogStatus.INFO, "FreelanceDEGrabben wurde instanziiert");
     }
     public void cookieHandler()
     {
+        LogEntry(LogStatus.INFO, "Cookie Div wird geprüft...");
         WebElement weCookieDivAkzeptierenElement = webelementFinden(SelectorType.xpath, StrXPathCookieAccept, 1);
         if (weCookieDivAkzeptierenElement!=null)
         {
-            System.out.println("Cookie Div ist vorhanden!\nAnzeige wird geschlossen!");
+            LogEntry(LogStatus.INFO, "Cookie Div ist vorhanden!<br>Anzeige wird geschlossen!");
             webelementKlicken(weCookieDivAkzeptierenElement);
+            LogEntry(LogStatus.PASS, "Cookie Div wurde geschlossen!");
         }
     }
     //=====================================================================
@@ -44,7 +51,7 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // =====================================================================
         if (!webseiteStarten(wWebseite.strURL, "Freelancer, Freiberufler und"))
         {
-            System.out.println("Fehler beim Starten der Webseite");
+            LogEntry(LogStatus.FAIL, "Fehler beim Starten der Webseite");
             assert (1==0);
         }
     }
@@ -62,7 +69,7 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // =====================================================================
         if (!new FreelanceDEAnmeldemaske(this).anmelden())
         {
-            System.out.println("Fehler beim anmelden des Benutzers");
+            LogEntry(LogStatus.FAIL, "Fehler beim anmelden des Benutzers");
             assert (1==0);
         }
     }
@@ -84,7 +91,7 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // =====================================================================
         if (!new FreelanceDESuchlisteMaske(this).suchlistebearbeiten())
         {
-            System.out.println("Fehler beim Starten der Webseite");
+            LogEntry(LogStatus.FAIL, "Fehler beim Starten der Webseite");
             assert (1==0);
         }
     }
@@ -95,7 +102,7 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // =====================================================================
         if (!WebDriverInitiieren())
         {
-            System.out.println("Fehler beim initiieren des Webdrivers");
+            LogEntry(LogStatus.FAIL, "Fehler beim initiieren des Webdrivers");
             assert (1==0);
         }
     }
@@ -106,7 +113,7 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // =====================================================================
         if (!browserSchließen())
         {
-            System.out.println("Fehler beim schließen des Browsers");
+            LogEntry(LogStatus.FAIL, "Fehler beim schließen des Browsers");
             assert (1==0);
         }
     }
