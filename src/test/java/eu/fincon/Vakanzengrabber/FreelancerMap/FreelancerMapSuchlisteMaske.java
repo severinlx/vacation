@@ -109,7 +109,7 @@ public class FreelancerMapSuchlisteMaske extends VakanzenGrabber {
         // im Anschluss wird die Funktion zum Sichern aufgerufen
         // =====================================================================
         InserateHandler = new InserateVerwalten(lInserate);
-        InserateHandler.inserateSichern(pivstSpeichertyp);
+        InserateHandler.inserateSichern(Config.stSpeicherTyp, "FreelancerMap");
         System.out.println("Die Inserateliste wurde gesichert");
         return true;
     }

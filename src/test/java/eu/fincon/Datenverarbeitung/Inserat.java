@@ -49,6 +49,39 @@ public class Inserat {
         strProjektbeschreibung = Standardwert;
         strKategorienUndSkills = Standardwert;
     }
+    //=====================================================================
+    // Eine statische Funktion kann ohne Instanz über die Klasse aufgerufen werden
+    // =====================================================================
+    public static String getSQLiteCreateTable(String pstrTabellenName) {
+        return "CREATE TABLE IF NOT EXISTS " + pstrTabellenName + " (\n"
+                + "	ID INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+                + " URL text,\n"
+                + "	Titel text,\n"
+                + "	Start text,\n"
+                + "	Dauer text,\n"
+                + "	Ende text,\n"
+                + "	Ort text,\n"
+                + " Bezahlung text,\n"
+                + "	Letztes_Update text,\n"
+                + "	Remote text,\n"
+                + "	Referenz_Nummer text,\n"
+                + "	Projektbeschreibung text,\n"
+                + "	Kategorien_und_Skills text,\n"
+                + "	Kontaktdaten text\n"
+                + ");";
+    }
+    public static String getSQLiteSpalten()
+    {
+        return "URL,Titel,Start,Dauer,Ende,Ort,Bezahlung,Letztes_Update,Remote,Referenz_Nummer,Projektbeschreibung,Kategorien_und_Skills,Kontaktdaten";
+    }
+    public String getInseratStringSQLite() {
+
+        //=====================================================================
+        // Alle Werte des Inserates werden Semikolon-separiet zurückgegeben.
+        // URL;Titel;StartDatum;EndeDatum;Ort;Bezahlung;LetztesUpdate;ReferenzNummer;Projektbeschreibung
+        // =====================================================================
+        return "\"" + strURL + "\",\"" + strTitel + "\",\"" + strStartDatum+ "\",\"" + strDauer + "\",\"" + strEndeDatum + "\",\"" + strOrt + "\",\"" + strBezahlung + "\",\"" + strLetztesUpdate + "\",\"" + strRemote + "\",\"" + strReferenzNummer + "\",\"" + strProjektbeschreibung + "\",\"" + strKategorienUndSkills + "\",\"" + strKontaktdaten + "\"";
+    }
     public String getInseratStringCSV() {
 
         //=====================================================================
@@ -57,7 +90,6 @@ public class Inserat {
         // =====================================================================
         return strURL + ";" + strTitel + ";" + strStartDatum+ ";" + strDauer + ";" + strEndeDatum + ";" + strOrt + ";" + strBezahlung + ";" + strLetztesUpdate + ";" + strRemote + ";" + strReferenzNummer + ";" + strProjektbeschreibung + ";" + strKategorienUndSkills + ";" + strKontaktdaten;
     }
-
     //=====================================================================
     // Eine statische Funktion kann ohne Instanz über die Klasse aufgerufen werden
     // =====================================================================

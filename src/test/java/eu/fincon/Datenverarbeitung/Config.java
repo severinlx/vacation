@@ -17,18 +17,46 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 public class Config {
-    public static eu.fincon.Datenverarbeitung.InserateVerwalten.SpeicherTypen stSpeicherTyp = InserateVerwalten.SpeicherTypen.csv;
+    public static eu.fincon.Datenverarbeitung.InserateVerwalten.SpeicherTypen stSpeicherTyp;
     public static Webseite[] strarrayWebseitenListe;
     public static VakanzenGrabber.Browser bBrowser;
     public static Level lLogLevel;
+    public static String strDatabasePfad;
+    public static String strDatabaseName;
     public static void init()
     {
         ExtendetLogger.CreateChild("Konfiguration laden");
         ExtendetLogger.setLogLevel(lLogLevel);
+        DatabaseLaden();
         WebseitenlisteLaden();
+        SpeicherzielLaden();
         setBrowser();
         setLogLevel();
         ExtendetLogger.AppendChild();
+    }
+    public static void SpeicherzielLaden()
+    {
+        String strSpeicherziel = getWertAusConfig("", "Speicherziel").toLowerCase();
+        switch (strSpeicherziel)
+        {
+            case "csv":
+                stSpeicherTyp = InserateVerwalten.SpeicherTypen.csv;
+                break;
+            case "sqlite":
+                stSpeicherTyp = InserateVerwalten.SpeicherTypen.sqllite;
+                break;
+            default:
+                stSpeicherTyp = InserateVerwalten.SpeicherTypen.sqllite;
+                break;
+        }
+        ExtendetLogger.LogEntry(LogStatus.INFO, "Speichertyp - " + stSpeicherTyp.toString() + " wurde geladen");
+    }
+    public static void DatabaseLaden()
+    {
+        strDatabasePfad = getWertAusConfig("", "DatabasePfad");
+        ExtendetLogger.LogEntry(LogStatus.INFO, "Database Pfad wurde geladen - " + strDatabasePfad);
+        strDatabaseName = getWertAusConfig("", "DatabaseName");
+        ExtendetLogger.LogEntry(LogStatus.INFO, "Database Name wurde geladen - " + strDatabaseName);
     }
     public static void WebseitenlisteLaden()
     {

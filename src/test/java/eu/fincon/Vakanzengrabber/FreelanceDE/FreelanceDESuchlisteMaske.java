@@ -127,7 +127,7 @@ public class FreelanceDESuchlisteMaske extends VakanzenGrabber {
         // =====================================================================
         LogEntry(LogStatus.INFO, "Die Inserateliste wird gesichert...");
         InserateHandler = new InserateVerwalten(lInserate);
-        InserateHandler.inserateSichern(pivstSpeichertyp);
+        InserateHandler.inserateSichern(Config.stSpeicherTyp, "FreelanceDE");
         LogEntry(LogStatus.PASS, "Die Inserateliste wurde gesichert");
         return true;
     }

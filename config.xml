@@ -2,6 +2,9 @@
 <eu.fincon.Vakanzengrabber>
 	<Browser>Chrome</Browser>
 	<LogLevel>All</LogLevel>
+	<Speicherziel>sqlite</Speicherziel>
+	<DatabaseName>Vakanzengrabber.db</DatabaseName>
+	<DatabasePfad>jdbc:sqlite:C://Users/mnaas/IdeaProjects/VakanzenGrabber/</DatabasePfad>
 	<Seiten>
 		<Seite name="FreelancerMap" url="http://www.freelancermap.de" benutzername="Manuel.Naas@fincon.eu" passwort="start123#"/>
 		<Seite name="FreelanceDE" url="http://www.freelance.de" benutzername="Manuel.Naas@fincon.eu" passwort="start123#"/>
