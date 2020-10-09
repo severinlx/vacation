@@ -110,6 +110,16 @@ public class InserateVerwalten {
     private void sqliteOutput(String pstrTabellenName)
     {
         Connection conn = this.connectToSQLLiteDatabase();
+        try {
+            // Damit wird die AutoCommit deaktiviert
+            // Dieser führte dazu, dass mit jedem Statement ein Commit durchgeführt wurde - Was zu einer Exception geführt hat
+            // Der Commit wird "manuell" im Code nach dem Statement ausgeführt
+            conn.setAutoCommit(false);
+        }
+        catch (SQLException e)
+        {
+            ExtendetLogger.LogEntry(LogStatus.INFO, "Failed to Set AutoCommitMode");
+        }
         pstrTabellenName = createNewTable(conn, pstrTabellenName);
         ExtendetLogger.LogEntry(LogStatus.INFO, "Inserate werden gesichert... ");
         int intIndex = 1;
