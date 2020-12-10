@@ -48,6 +48,7 @@ public class InserateVerwalten {
             Statement stmt = conn.createStatement();
             // create a new table
             stmt.execute(sql);
+            ExtendetLogger.LogEntry(LogStatus.INFO, sql);
             conn.commit();
         } catch (SQLException e) {
             ExtendetLogger.LogEntry(LogStatus.ERROR, "Failed to Drop Table - " + sql);
@@ -67,6 +68,7 @@ public class InserateVerwalten {
              Statement stmt = conn.createStatement();
             // create a new table
             stmt.execute(sql);
+            ExtendetLogger.LogEntry(LogStatus.INFO, sql);
             conn.commit();
         } catch (SQLException e) {
             ExtendetLogger.LogEntry(LogStatus.ERROR, "Failed to create Table - " + sql);
@@ -84,6 +86,7 @@ public class InserateVerwalten {
         String sql = "INSERT INTO "+ pstrTabellenname +" (" + Inserat.getSQLiteSpalten() + ") VALUES(" + piInserat.getInseratStringSQLite() + ")";
         try {
             stmt.execute(sql);
+            ExtendetLogger.LogEntry(LogStatus.INFO, sql);
             pConnection.commit();
         } catch (SQLException e) {
             ExtendetLogger.LogEntry(LogStatus.ERROR, "Failed to Execute Insert Statement - " + sql);
