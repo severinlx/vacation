@@ -1,33 +1,29 @@
-package eu.fincon.Vakanzengrabber.FreelanceDE;
+package eu.fincon.Vakanzengrabber.FreelancerMap;
 
-import com.relevantcodes.extentreports.LogStatus;
 import eu.fincon.Datenverarbeitung.Inserat;
 import eu.fincon.Vakanzengrabber.Base.VakanzenGrabber;
 import org.openqa.selenium.WebElement;
 
-import static eu.fincon.Logging.ExtendetLogger.LogEntry;
-
-public class FreelanceDEInseratMaske extends VakanzenGrabber {
+public class FreelancerMapInseratMaske extends VakanzenGrabber {
     //=====================================================================
     // XPaths - Inserat
     // =====================================================================
-    String strXpathTitel = "//div[@class='panel-body project-header panel-white']//h1";
+    String strXpathTitel = "//div[@class='container']//h1[@class='top_seo']";
 
-    String strXpathStartDatum = "//div[@class='col-md-6 details-box']//i[@class='far fa-calendar-star']/..";
-    String strXpathEndeDatum = "//div[@class='col-md-6 details-box']//i[@class='far fa-calendar-times']/..";
-    String strXpathOrt = "//div[@class='col-md-6 details-box']//i[@class='far fa-map-marker-alt']/..";
-    String strXpathBezahlung = "//div[@class='col-md-6 details-box']//i[@class='far fa-coins']/..";
-    String strXpathRemote = "//div[@class='col-md-6 details-box']//i[@class='far fa-home-alt']/..";
-    String strXpathLetztesUpdate = "//div[@class='col-md-6 details-box']//i[@class='far fa-history']/..";
-    String strXpathReferenzNummer = "//div[@class='col-md-6 details-box']//i[@class='far fa-tag']/..";
+    String strXpathStartDatum = "//div[@class='project-detail-title' and text() = 'Start:']/../div[@class='project-detail-description']";
+    String strXpathDauer = "//div[@class='project-detail-title' and text() = 'Dauer:']/../div[@class='project-detail-description']";
+    String strXpathOrt = "//div[@class='project-detail-title' and text() = 'Ort:']/../div[@class='project-detail-description']";
+    String strXpathRemote = "//div[@class='project-detail-title' and text() = 'Vertragsart:']/../div[@class='project-detail-description']";
+    String strXpathReferenzNummer = "//div[@class='project-detail-title' and text() = 'Projekt-ID:']/../div[@class='project-detail-description']";
 
-    String strXpathProjektbeschreibung = "//div[@class=\"panel-body\"]";
+    String strXpathProjektbeschreibung = "//div[@class='projectcontent']";
 
-    String strXpathKategorienUndSkills = "//h3[text() = 'Kategorien und Skills']/../..//div[@class='panel-body']";
+    String strXpathKategorienUndSkills = "//div[@class='project-categories']";
 
 
-    String strXpathKontaktdaten = "//h3[text() = 'Kontaktdaten']/../..//div[@class='panel-body']";
-    public FreelanceDEInseratMaske(FreelanceDESuchlisteMaske pSuperclass)
+    String strXpathOpenKontaktdaten = "//a[@class='btn btn-default btn-sm']";
+    String strXpathKontaktdaten = "//div[@class='col-md-8 col-sm-8 text_medium m-t-1 ']";
+    public FreelancerMapInseratMaske(FreelancerMapSuchlisteMaske pSuperclass)
     {
         super();
         this.wWebseite=pSuperclass.wWebseite;
@@ -45,11 +41,9 @@ public class FreelanceDEInseratMaske extends VakanzenGrabber {
         // Webelemente zu den Metadaten werden ermittelt
         // =====================================================================
         WebElement webStartDatum = webelementFinden(SelectorType.xpath, strXpathStartDatum, 0);
-        WebElement webEndeDatum = webelementFinden(SelectorType.xpath, strXpathEndeDatum, 0);
+        WebElement webDauer = webelementFinden(SelectorType.xpath, strXpathDauer, 0);
         WebElement webOrt = webelementFinden(SelectorType.xpath, strXpathOrt, 0);
-        WebElement webBezahlung = webelementFinden(SelectorType.xpath, strXpathBezahlung, 0);
         WebElement webRemote = webelementFinden(SelectorType.xpath, strXpathRemote, 0);
-        WebElement webLetztesUpdate = webelementFinden(SelectorType.xpath, strXpathLetztesUpdate, 0);
         WebElement webReferenzNummer = webelementFinden(SelectorType.xpath, strXpathReferenzNummer, 0);
 
         //=====================================================================
@@ -62,12 +56,6 @@ public class FreelanceDEInseratMaske extends VakanzenGrabber {
         // =====================================================================
         WebElement webKategorienUndSkills = webelementFinden(SelectorType.xpath, strXpathKategorienUndSkills, 0);
 
-
-        //=====================================================================
-        // Webelement zur Kontaktdaten wird ermittelt
-        // =====================================================================
-        WebElement webKontaktdaten = webelementFinden(SelectorType.xpath, strXpathKontaktdaten, 0);
-
         //=====================================================================
         // Die Inhalte werden aus den Webelementen geholt und in einer Instanz
         // der Klasse Inserate gesichert
@@ -75,11 +63,9 @@ public class FreelanceDEInseratMaske extends VakanzenGrabber {
         iAktuellesInserat.strTitel = webelementTextauslesen(webTitel);
 
         iAktuellesInserat.strStartDatum = webelementTextauslesen(webStartDatum);
-        iAktuellesInserat.strEndeDatum = webelementTextauslesen(webEndeDatum);
+        iAktuellesInserat.strDauer = webelementTextauslesen(webDauer);
         iAktuellesInserat.strOrt = webelementTextauslesen(webOrt);
-        iAktuellesInserat.strBezahlung = webelementTextauslesen(webBezahlung);
         iAktuellesInserat.strRemote = webelementTextauslesen(webRemote);
-        iAktuellesInserat.strLetztesUpdate = webelementTextauslesen(webLetztesUpdate);
         iAktuellesInserat.strReferenzNummer = webelementTextauslesen(webReferenzNummer);
 
         iAktuellesInserat.strProjektbeschreibung = webelementTextauslesen(webProjektbeschreibung);
@@ -87,10 +73,17 @@ public class FreelanceDEInseratMaske extends VakanzenGrabber {
         iAktuellesInserat.strKategorienUndSkills = webelementTextauslesen(webKategorienUndSkills);
 
 
+        //=====================================================================
+        // Maske für Kontaktdaten öffnen und
+        // Webelement zur Kontaktdaten wird ermittelt
+        // =====================================================================
+        WebElement webOpenKontaktdaten = webelementFinden(SelectorType.xpath, strXpathOpenKontaktdaten, 0);
+        webelementKlicken(webOpenKontaktdaten);
+        WebElement webKontaktdaten = webelementFinden(SelectorType.xpath, strXpathKontaktdaten, 0);
         iAktuellesInserat.strKontaktdaten = webelementTextauslesen(webKontaktdaten);
 
-        LogEntry(LogStatus.PASS, "Das Inserat <br>" + iAktuellesInserat.strTitel + "<br> wurde gesichert");
 
+        System.out.println("Das Inserat " + iAktuellesInserat.strTitel + " wurde gesichert");
         return iAktuellesInserat;
     }
 }

@@ -1,39 +1,34 @@
-package eu.fincon.Vakanzengrabber.FreelanceDE;
-import com.relevantcodes.extentreports.LogStatus;
+package eu.fincon.Vakanzengrabber.FreelancerMap;
 import eu.fincon.Datenverarbeitung.Testdatum;
 import eu.fincon.Datenverarbeitung.Webseite;
 import eu.fincon.Vakanzengrabber.Base.VakanzenGrabber;
 import org.openqa.selenium.WebElement;
 
-import static eu.fincon.Logging.ExtendetLogger.LogEntry;
-
 //=====================================================================
 // Enthält FreelanceDe spezifische Informationen
 // =====================================================================
-public class FreelanceDEGrabben extends VakanzenGrabber {
-    String StrXPathCookieAccept = "//a[@id='CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection']";
+public class FreelancerMapGrabben extends VakanzenGrabber {
+    String StrXPathCookieWindow = "//div[@class='cc_banner cc_container cc_container--open']";
+    String StrXPathCookieAccept = "//div[@class='cc_banner cc_container cc_container--open']/a";
     //=====================================================================
     // Basis Methode für FreelanceDE
     // =====================================================================
-    public FreelanceDEGrabben(Webseite pwWebseite)
+    public FreelancerMapGrabben(Webseite pwWebseite)
     {
         //==========================4===========================================
         // Ruft den Constructor der Basisklasse auf
         // =====================================================================
         super();
-        LogEntry(LogStatus.INFO, "FreelanceDEGrabben wird instanziiert...");
         wWebseite = pwWebseite;
-        LogEntry(LogStatus.INFO, "FreelanceDEGrabben wurde instanziiert");
     }
     public void cookieHandler()
     {
-        LogEntry(LogStatus.INFO, "Cookie Div wird geprüft...");
-        WebElement weCookieDivAkzeptierenElement = webelementFinden(SelectorType.xpath, StrXPathCookieAccept, 1);
-        if (weCookieDivAkzeptierenElement!=null)
+        WebElement weCookieWindowElement = webelementFinden(SelectorType.xpath, StrXPathCookieWindow, 1);
+        if (weCookieWindowElement!=null)
         {
-            LogEntry(LogStatus.INFO, "Cookie Div ist vorhanden!<br>Anzeige wird geschlossen!");
+            WebElement weCookieDivAkzeptierenElement = webelementFinden(SelectorType.xpath, StrXPathCookieAccept, 1);
+            System.out.println("Cookie Div ist vorhanden!\nAnzeige wird geschlossen!");
             webelementKlicken(weCookieDivAkzeptierenElement);
-            LogEntry(LogStatus.PASS, "Cookie Div wurde geschlossen!");
         }
     }
     //=====================================================================
@@ -49,9 +44,9 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         //=====================================================================
         // Ruft die Methode "webseiteStarten" aus der Basis-Klasse auf
         // =====================================================================
-        if (!webseiteStarten(wWebseite.strURL, "Freelancer, Freiberufler und"))
+        if (!webseiteStarten(wWebseite.strURL, "Freelancer & Projekte finden - freelancermap"))
         {
-            LogEntry(LogStatus.FAIL, "Fehler beim Starten der Webseite");
+            System.out.println("Fehler beim Starten der Webseite");
             assert (1==0);
         }
     }
@@ -67,9 +62,9 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // Instanz an den Constructor
         // Im Anschluss wird die Methode "anmelden" aus dem Object ausgeführt
         // =====================================================================
-        if (!new FreelanceDEAnmeldemaske(this).anmelden())
+        if (!new FreelancerMapAnmeldemaske(this).anmelden())
         {
-            LogEntry(LogStatus.FAIL, "Fehler beim anmelden des Benutzers");
+            System.out.println("Fehler beim anmelden des Benutzers");
             assert (1==0);
         }
     }
@@ -80,7 +75,7 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // Instanz an den Constructor
         // Im Anschluss wird die Methode "sucheDurchfuehren" aus dem Object ausgeführt
         // =====================================================================
-        new FreelanceDESuchmaske(this, wWebseite).sucheAufMaskeDurchfuehren(ptTestdatum);
+        new FreelancerMapSuchmaske(this, wWebseite).sucheAufMaskeDurchfuehren(ptTestdatum);
     }
     @Override
     public void suchlisteSichern(){
@@ -89,9 +84,9 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // Instanz an den Constructor
         // Im Anschluss wird die Methode "suchlistebearbeiten" aus dem Object ausgeführt
         // =====================================================================
-        if (!new FreelanceDESuchlisteMaske(this).suchlistebearbeiten())
+        if (!new FreelancerMapSuchlisteMaske(this).suchlistebearbeiten())
         {
-            LogEntry(LogStatus.FAIL, "Fehler beim Starten der Webseite");
+            System.out.println("Fehler beim Starten der Webseite");
             assert (1==0);
         }
     }
@@ -102,7 +97,7 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // =====================================================================
         if (!WebDriverInitiieren())
         {
-            LogEntry(LogStatus.FAIL, "Fehler beim initiieren des Webdrivers");
+            System.out.println("Fehler beim initiieren des Webdrivers");
             assert (1==0);
         }
     }
@@ -113,7 +108,7 @@ public class FreelanceDEGrabben extends VakanzenGrabber {
         // =====================================================================
         if (!browserSchließen())
         {
-            LogEntry(LogStatus.FAIL, "Fehler beim schließen des Browsers");
+            System.out.println("Fehler beim schließen des Browsers");
             assert (1==0);
         }
     }

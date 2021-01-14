@@ -1,19 +1,18 @@
-package eu.fincon.Vakanzengrabber.FreelanceDE;
+package eu.fincon.Vakanzengrabber.FreelancerMap;
 
 import com.relevantcodes.extentreports.LogStatus;
 import eu.fincon.Datenverarbeitung.Testdatum;
 import eu.fincon.Datenverarbeitung.Webseite;
+import eu.fincon.Logging.ExtendetLogger;
 import org.openqa.selenium.WebElement;
 
-import static eu.fincon.Logging.ExtendetLogger.LogEntry;
-
-public class FreelanceDESuchmaske extends FreelanceDEGrabben{
+public class FreelancerMapSuchmaske extends FreelancerMapGrabben {
     //=====================================================================
     // XPaths - Suchmaske
     // =====================================================================
-    String strXpathSuchfeld = "//*[@id='__search']//input[@name= '__search_freetext']";
-    String strXpathSuchbutton = "//*[@id='__search']//input[@name= '__search_freetext']/..//button";
-    public FreelanceDESuchmaske(FreelanceDEGrabben pSuperclass, Webseite wWebseite)
+    String strXpathSuchfeld = "//input[@class= 'form-control']";
+    String strXpathSuchbutton = "//i[@class='fa fa-search']//..";
+    public FreelancerMapSuchmaske(FreelancerMapGrabben pSuperclass, Webseite wWebseite)
     {
         super(wWebseite);
         this.gObjWebDriver = pSuperclass.gObjWebDriver;
@@ -24,11 +23,12 @@ public class FreelanceDESuchmaske extends FreelanceDEGrabben{
         // Das Webelement für das Suchfeld wird identifiziert und auf den Suchbegriff gesetzt
         //
         //=====================================================================
+        ExtendetLogger.LogEntry(LogStatus.INFO, "Suchbegriff wird gesetzt...");
         WebElement suchfeld = webelementFinden(SelectorType.xpath, strXpathSuchfeld);
         blnErgebnis = webelementSetzen(suchfeld, ptTestdatum.strSuchbegriff);
         if (!blnErgebnis)
         {
-            LogEntry(LogStatus.FAIL, "Fehler beim Setzen des Suchbegriffs.");
+            ExtendetLogger.LogEntry(LogStatus.FAIL, "Fehler beim Setzen des Suchbegriffs.\nSuchbegriff: "+ptTestdatum.strSuchbegriff);
             assert (1==0);
         }
         //=====================================================================
@@ -39,10 +39,10 @@ public class FreelanceDESuchmaske extends FreelanceDEGrabben{
         blnErgebnis = webelementKlicken(suchButton);
         if (!blnErgebnis)
         {
-            LogEntry(LogStatus.FAIL, "Fehler beim Klicken auf den Suchbutton.");
+            ExtendetLogger.LogEntry(LogStatus.FAIL, "Fehler beim Klicken des auf den Suchbutton.");
             assert (1==0);
         }
-        LogEntry(LogStatus.PASS, "Suche wurde durchgeführt");
+        ExtendetLogger.LogEntry(LogStatus.INFO, "Suchbegriff wurde gesetzt");
         //=====================================================================
         // Die der WebElemente für die Suchergebnisse ermittelt und in einer Schleife durchlaufen
         //  //=====================================================================

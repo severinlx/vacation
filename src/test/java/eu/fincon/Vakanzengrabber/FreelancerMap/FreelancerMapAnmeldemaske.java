@@ -1,30 +1,29 @@
-package eu.fincon.Vakanzengrabber.FreelanceDE;
+package eu.fincon.Vakanzengrabber.FreelancerMap;
 
-import com.relevantcodes.extentreports.LogStatus;
-import eu.fincon.Datenverarbeitung.Testdatum;
-import eu.fincon.Vakanzengrabber.Base.VakanzenGrabber;
 import org.openqa.selenium.WebElement;
 
-import static eu.fincon.Logging.ExtendetLogger.LogEntry;
-
-public class FreelanceDEAnmeldemaske extends  FreelanceDEGrabben {
+public class FreelancerMapAnmeldemaske extends FreelancerMapGrabben {
     //=====================================================================
     // XPaths - Anmeldemaske öffnen
     // =====================================================================
-    String strXpathLoginBTN = "//nav[@class='nav-top pull-right']//a[text() = 'Login']";
+    String strXpathLoginBTN = "//a[text() = 'Mein Account']";
     //=====================================================================
     // XPaths - Anmeldemaske
     // =====================================================================
-    String strXpathBenutzername = "//input[@id='username']";
+    String strXpathBenutzername = "//input[@id='login']";
     String strXpathPassword = "//input[@id='password']";
-    String strXpathAnmeldenBTN = "//input[@id='login']";
+    String strXpathAnmeldenBTN = "//button[text() = 'Anmelden bei freelancermap']";
 
-    String strXpathFehlermeldungBeiAnmeldung = "//div[@class='alert alert-warning']";
+    String strXpathFehlermeldungBeiAnmeldung = "//div[@class='alert alert-danger']";
 
-    String strXpathHeaderLogo = "//a[@class='header-logo ']";
+    String strXpathHeaderLogo = "//img[@class='img img-responsive']/..";
 
-    String getStrXpathWelcomePanel = "//div[@class='panel-welcome']";
-    public FreelanceDEAnmeldemaske(FreelanceDEGrabben pSuperclass)
+    //=====================================================================
+    // XPath - Zum Hinweisfenster nach der Anmeldung
+    // =====================================================================
+    String strXpathHinweisFenster = "//div[@class='fancybox-wrap fancybox-desktop fancybox-type-inline fancybox-opened']//a[@class='fancybox-item fancybox-close']";
+
+    public FreelancerMapAnmeldemaske(FreelancerMapGrabben pSuperclass)
     {
         super(pSuperclass.wWebseite);
         this.gObjWebDriver = pSuperclass.gObjWebDriver;
@@ -35,7 +34,6 @@ public class FreelanceDEAnmeldemaske extends  FreelanceDEGrabben {
         boolean blnErgebnis;
         //=====================================================================
         // Anmeldeseite öffnen
-        //    TODO
         //=====================================================================
         if (wWebseite.strBenutzername.contentEquals("") || wWebseite.strPasswort.contentEquals(""))
         {
@@ -45,35 +43,34 @@ public class FreelanceDEAnmeldemaske extends  FreelanceDEGrabben {
             // =====================================================================
             return true;
         }
-        if (seitentitelHolen().contains("Freelancer, Freiberufler und ") == false)
+        if (seitentitelHolen().contains("Freelancer & Projekte finden - freelancermap") == false)
         {
-            LogEntry(LogStatus.FAIL, "Der Seitentitel entspricht nicht dem erwarteten Titel zur Anmeldung");
             return false;
         }
         //=====================================================================
         // Das Webelement für den Loginmaskenbutton wird ermittelt und geklickt
         //
         //=====================================================================
-        WebElement loginoeffnenBTN = webelementFinden(VakanzenGrabber.SelectorType.xpath, strXpathLoginBTN);
+        WebElement loginoeffnenBTN = webelementFinden(SelectorType.xpath, strXpathLoginBTN);
         blnErgebnis = webelementKlicken(loginoeffnenBTN);
 
         //=====================================================================
         // Das Webelement für den Benutzername wird ermittelt und gesetzt
         //
         //=====================================================================
-        WebElement benutzernamefeld = webelementFinden(VakanzenGrabber.SelectorType.xpath, strXpathBenutzername);
+        WebElement benutzernamefeld = webelementFinden(SelectorType.xpath, strXpathBenutzername);
         blnErgebnis = webelementSetzen(benutzernamefeld, wWebseite.strBenutzername);
         //=====================================================================
         // Das Webelement für das Passwort wird ermittelt und gesetzt
         //
         //=====================================================================
-        WebElement passwortfeld = webelementFinden(VakanzenGrabber.SelectorType.xpath, strXpathPassword);
+        WebElement passwortfeld = webelementFinden(SelectorType.xpath, strXpathPassword);
         blnErgebnis = webelementSetzen(passwortfeld, wWebseite.strPasswort);
         //=====================================================================
         // Das Webelement für den Anmeldebutton wird ermittelt und geklickt
         //
         //=====================================================================
-        WebElement anmeldenBTN = webelementFinden(VakanzenGrabber.SelectorType.xpath, strXpathAnmeldenBTN);
+        WebElement anmeldenBTN = webelementFinden(SelectorType.xpath, strXpathAnmeldenBTN);
         blnErgebnis = webelementKlicken(anmeldenBTN);
 
         //=====================================================================
@@ -83,19 +80,21 @@ public class FreelanceDEAnmeldemaske extends  FreelanceDEGrabben {
         //=====================================================================
         if (webelementFinden(SelectorType.xpath, strXpathFehlermeldungBeiAnmeldung, 1)==null /*&& webelementFinden(SelectorType.xpath, getStrXpathWelcomePanel, 1)!=null*/)
         {
-            LogEntry(LogStatus.PASS, "Anmeldung war erfolgreich");
+            System.out.println("Anmeldung war erfolgreich");
             blnErgebnis = true;
         }
         else
         {
             System.out.println("Anmeldung war Fehlerhaft");
-            LogEntry(LogStatus.FAIL, "Anmeldung war Fehlerhaft");
             blnErgebnis = false;
         }
-        LogEntry(LogStatus.INFO, "Logo wird geklickt...");
+        WebElement weHinweisFenster = webelementFinden(SelectorType.xpath, strXpathHinweisFenster, 2);
+        if (weHinweisFenster!=null)
+        {
+            webelementKlicken(weHinweisFenster);
+        }
         WebElement webHeaderLogo = webelementFinden(SelectorType.xpath, strXpathHeaderLogo);
         webelementKlicken(webHeaderLogo);
-        LogEntry(LogStatus.INFO, "Logo wurde geklickt");
         return blnErgebnis;
     }
 }

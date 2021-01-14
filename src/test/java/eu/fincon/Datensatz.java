@@ -1,4 +1,4 @@
-package eu.fincon.Datenverarbeitung;
+package eu.fincon;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -26,7 +26,8 @@ public class Datensatz
 
     public void Write_file(int index, String pfad)
     {
-        String text = index + ";" + Ueberschrift + ";" + Firmenname + ";" + DatumVon + ";" + DatumBis + ";" + Ort + ";" + Bezahlung + ";" + Beschreibung;
+        String strIndex = index + "";
+        String text = strIndex  + ";" + Ueberschrift + ";" + Firmenname + ";" + DatumVon + ";" + DatumBis + ";" + Ort + ";" + Bezahlung + ";" + Beschreibung;
         text = text.replace("\n","<br>");
         // Datensatz wird in die Datei geschrieben
         Write_to_File(pfad, text);

@@ -11,6 +11,7 @@ public class Inserat {
     // Variablendeklaration für die Metadaten
     // =====================================================================
     public String strStartDatum;
+    public String strDauer;
     public String strEndeDatum;
     public String strOrt;
     public String strBezahlung;
@@ -39,6 +40,7 @@ public class Inserat {
         // =====================================================================
         strTitel = Standardwert;
         strStartDatum = Standardwert;
+        strDauer = Standardwert;
         strEndeDatum = Standardwert;
         strOrt = Standardwert;
         strBezahlung = Standardwert;
@@ -47,21 +49,53 @@ public class Inserat {
         strProjektbeschreibung = Standardwert;
         strKategorienUndSkills = Standardwert;
     }
+    //=====================================================================
+    // Eine statische Funktion kann ohne Instanz über die Klasse aufgerufen werden
+    // =====================================================================
+    public static String getSQLiteCreateTable(String pstrTabellenName) {
+        return "CREATE TABLE IF NOT EXISTS " + pstrTabellenName + " (\n"
+                + "	ID INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+                + " URL text,\n"
+                + "	Titel text,\n"
+                + "	Start text,\n"
+                + "	Dauer text,\n"
+                + "	Ende text,\n"
+                + "	Ort text,\n"
+                + " Bezahlung text,\n"
+                + "	Letztes_Update text,\n"
+                + "	Remote text,\n"
+                + "	Referenz_Nummer text,\n"
+                + "	Projektbeschreibung text,\n"
+                + "	Kategorien_und_Skills text,\n"
+                + "	Kontaktdaten text\n"
+                + ");";
+    }
+    public static String getSQLiteSpalten()
+    {
+        return "URL,Titel,Start,Dauer,Ende,Ort,Bezahlung,Letztes_Update,Remote,Referenz_Nummer,Projektbeschreibung,Kategorien_und_Skills,Kontaktdaten";
+    }
+    public String getInseratStringSQLite() {
+
+        //=====================================================================
+        // Alle Werte des Inserates werden Semikolon-separiet zurückgegeben.
+        // URL;Titel;StartDatum;EndeDatum;Ort;Bezahlung;LetztesUpdate;ReferenzNummer;Projektbeschreibung
+        // =====================================================================
+        return "\"" + strURL + "\",\"" + strTitel + "\",\"" + strStartDatum+ "\",\"" + strDauer + "\",\"" + strEndeDatum + "\",\"" + strOrt + "\",\"" + strBezahlung + "\",\"" + strLetztesUpdate + "\",\"" + strRemote + "\",\"" + strReferenzNummer + "\",\"" + strProjektbeschreibung + "\",\"" + strKategorienUndSkills + "\",\"" + strKontaktdaten + "\"";
+    }
     public String getInseratStringCSV() {
 
         //=====================================================================
         // Alle Werte des Inserates werden Semikolon-separiet zurückgegeben.
         // URL;Titel;StartDatum;EndeDatum;Ort;Bezahlung;LetztesUpdate;ReferenzNummer;Projektbeschreibung
         // =====================================================================
-        return strURL + ";" + strTitel + ";" + strStartDatum + ";" + strEndeDatum + ";" + strOrt + ";" + strBezahlung + ";" + strLetztesUpdate + ";" + strRemote + ";" + strReferenzNummer + ";" + strProjektbeschreibung + ";" + strKategorienUndSkills + ";" + strKontaktdaten;
+        return strURL + ";" + strTitel + ";" + strStartDatum+ ";" + strDauer + ";" + strEndeDatum + ";" + strOrt + ";" + strBezahlung + ";" + strLetztesUpdate + ";" + strRemote + ";" + strReferenzNummer + ";" + strProjektbeschreibung + ";" + strKategorienUndSkills + ";" + strKontaktdaten;
     }
-
     //=====================================================================
     // Eine statische Funktion kann ohne Instanz über die Klasse aufgerufen werden
     // =====================================================================
     public static String getCSVSpalten()
     {
-        return "URL;Titel;Start;Ende;Ort;Bezahlung;Letztes Update;Remote;Referenz Nummer;Projektbeschreibung;Kategorien und Skills;Kontaktdaten";
+        return "URL;Titel;Start;Dauer;Ende;Ort;Bezahlung;Letztes Update;Remote;Referenz Nummer;Projektbeschreibung;Kategorien und Skills;Kontaktdaten";
     }
     public String getURL()
     {

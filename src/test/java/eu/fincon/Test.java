@@ -1,10 +1,14 @@
 package eu.fincon;
+import com.relevantcodes.extentreports.LogStatus;
 import eu.fincon.Datenverarbeitung.Config;
 import eu.fincon.Datenverarbeitung.Datentreiber;
 import eu.fincon.Datenverarbeitung.Testdatum;
+import eu.fincon.Datenverarbeitung.Webseite;
+import eu.fincon.Logging.ExtendetLogger;
 import eu.fincon.Vakanzengrabber.FreelanceDE.FreelanceDEGrabben;
 
 import java.util.List;
+import java.util.logging.Level;
 
 public class Test {
     //=====================================================================
@@ -13,38 +17,45 @@ public class Test {
     @org.testng.annotations.Test // Ausführbarkeit von der Funktion als Test
     public void vakanzenGrabben() throws InterruptedException {
         //=====================================================================
+        // Logger setup
+        // =====================================================================
+        ExtendetLogger.setup("Vakanzengrabber");
+        //=====================================================================
         // Eine Liste (Typ Testdatum) wird aus der übergebenen Datei erstellt
         // =====================================================================
         List<Testdatum> lTestdatumListe = Datentreiber.getTestdatenEXCEL();
-
         //=====================================================================
         // Config Laden
         // =====================================================================
-        Config.setBrowser();
+        Config.init();
+        //=====================================================================
+        // Tests werden ermittelt und geloggt
+        // =====================================================================
+        ExtendetLogger.LogEntry(LogStatus.INFO,"Es werden "+Config.strarrayWebseitenListe.length+" Webseiten geprüft");
+        ExtendetLogger.LogEntry(LogStatus.INFO,"Es werden "+lTestdatumListe.size()+" Testdaten pro Seite geprüft");
         //=====================================================================
         // Es wird eine Schleif über alle Einträge des Testdatentreibers gelaufen
-        // =====================================================================
-        for (Testdatum tTestdatum : lTestdatumListe)
-        {
-            System.out.println("--------\nTestdaten für Lauf\n--------\nURL" + tTestdatum.strURL + "\nSuchbegriff" + tTestdatum.strSuchbegriff+"\n--------");
-            //=====================================================================
-            // Je nach URL aus dem Testdatum wird die entsprechende Funktion aufgerufen.
-            // =====================================================================
-            switch (tTestdatum.eSeite)
-            {
-                case FreelanceDE:
-                    FreelanceDEGrabben FreelanceDE = new FreelanceDEGrabben();
-                    FreelanceDE.browserVorbereiten(tTestdatum);
-                    FreelanceDE.seiteOeffnen(tTestdatum);
-                    FreelanceDE.benutzerAnmelden(tTestdatum);
-                    FreelanceDE.sucheDurchfuehren(tTestdatum);
-                    FreelanceDE.suchlisteSichern(tTestdatum);
-                    FreelanceDE.seiteSchließen();
-                    break;
-                case FreelancerMap:
-                    // Schritte zur Automatisierung ergänzen
-                    break;
+        // ====================================================================
+        for (Webseite wWebseite : Config.strarrayWebseitenListe) {
+            for (Testdatum tTestdatum : lTestdatumListe) {
+                ExtendetLogger.CreateChild(wWebseite.eSeite.toString() + "_" + tTestdatum.strSuchbegriff);
+                ExtendetLogger.LogEntry(LogStatus.INFO,"Webseite - "+wWebseite.strURL+
+                        " mit dem Suchbegriff -"+tTestdatum.strSuchbegriff+" wird ausgeführt...");
+                //=====================================================================
+                // Die Seitenspezifischen Methoden aus der jeweiligen Klasse werden aufgerufen
+                // ====================================================================
+                wWebseite.VakanzenObject.browserVorbereiten();
+                wWebseite.VakanzenObject.seiteOeffnen();
+                wWebseite.VakanzenObject.benutzerAnmelden();
+                wWebseite.VakanzenObject.sucheDurchfuehren(tTestdatum);
+                wWebseite.VakanzenObject.suchlisteSichern();
+                wWebseite.VakanzenObject.seiteSchließen();
+                ExtendetLogger.AppendChild();
             }
         }
+        //=====================================================================
+        // Logger finish
+        // =====================================================================
+        ExtendetLogger.finish();
     }
 }
